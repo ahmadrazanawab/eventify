@@ -2,6 +2,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { ISignUp } from "../type/IsignUp"
 import {
     Card,
     CardContent,
@@ -12,13 +13,28 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useForm } from "react-hook-form"
+import axios from "axios"
 
 export function SignupForm() {
     const [role, setRole] = useState<"student" | "admin">("student")
-
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<ISignUp>();
     const handleRoleChange = (newRole: "student" | "admin") => {
         setRole(newRole)
     }
+    const onSubmit = async (data: ISignUp) => {
+        try {
+            const res = await axios.post("/api/signup", { ...data, role });
+            if (res.data.success) {
+                alert("User registered successfully!");
+                window.location.href = "/login";
+            }
+            reset(); // reset form after success
+        } catch (error) {
+            console.error("Signup error:", error);
+        }
+    };
+
 
     return (
         <section className="flex justify-center mt-20 mx-4 mb-5">
@@ -56,15 +72,17 @@ export function SignupForm() {
                 </CardHeader>
 
                 <CardContent>
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-2">
                                 <Label htmlFor="name">Name</Label>
                                 <Input
                                     id="name"
+                                    {...register("name", {
+                                        required: "Name is required"
+                                    })}
                                     type="text"
                                     placeholder="Enter your name"
-                                    required
                                 />
                             </div>
 
@@ -72,6 +90,7 @@ export function SignupForm() {
                                 <Label htmlFor="email">Email</Label>
                                 <Input
                                     id="email"
+                                    {...register("email")}
                                     type="email"
                                     placeholder="example@email.com"
                                     required
@@ -84,6 +103,7 @@ export function SignupForm() {
                                         <Label htmlFor="department">Department</Label>
                                         <Input
                                             id="department"
+                                            {...register("department")}
                                             type="text"
                                             placeholder="e.g. Computer Science"
                                             required
@@ -93,6 +113,7 @@ export function SignupForm() {
                                         <Label htmlFor="year">Year</Label>
                                         <Input
                                             id="year"
+                                            {...register("year")}
                                             type="number"
                                             placeholder="e.g. 3"
                                             required
@@ -109,6 +130,7 @@ export function SignupForm() {
                                         </Label>
                                         <Input
                                             id="designation"
+                                            {...register("designation")}
                                             type="text"
                                             placeholder="e.g. Event Coordinator"
                                             required
@@ -120,6 +142,7 @@ export function SignupForm() {
                                         </Label>
                                         <Input
                                             id="accesscode"
+                                            {...register("secretCode")}
                                             type="password"
                                             placeholder="Enter secret code"
                                             required
@@ -132,29 +155,31 @@ export function SignupForm() {
                                 <Label htmlFor="phone">Mobile Number</Label>
                                 <Input
                                     id="phone"
-                                    type="tel"
+                                    {...register("phone")}
+                                    type="number"
                                     placeholder="Enter mobile number"
                                     required
                                 />
                             </div>
 
-                            <div className="grid gap-2">
+                            <div className="grid gap-2 mb-4">
                                 <Label htmlFor="password">Password</Label>
                                 <Input
                                     id="password"
+                                    {...register("password")}
                                     type="password"
                                     placeholder="Enter password"
                                     required
                                 />
                             </div>
                         </div>
+                        <Button type="submit" className="w-full cursor-pointer">
+                            Sign Up
+                        </Button>
                     </form>
                 </CardContent>
 
                 <CardFooter className="flex-col gap-2">
-                    <Button type="submit" className="w-full cursor-pointer">
-                        Sign Up
-                    </Button>
                     <Button variant="outline" className="w-full cursor-pointer">
                         Sign Up with Google
                     </Button>

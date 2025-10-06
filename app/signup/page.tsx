@@ -1,7 +1,16 @@
 import React from "react";
 import { SignupForm } from "./SignupForm";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-const page = () => {
+const page = async () => {
+    // ✅ Server-side cookie check
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+    // Redirect if already logged in
+    if (token) {
+        redirect("/dashboard");
+    }
     return (
         <section className="mt-16 flex flex-col md:flex-row justify-between items-center w-full max-w-6xl mx-auto px-4 gap-10">
             {/* Left side - Event message */}
