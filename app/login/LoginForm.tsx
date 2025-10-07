@@ -40,9 +40,9 @@ export default function LoginForm() {
             if (res.data.success) {
                 // ✅ Redirect based on role
                 if (res.data.user.role === "admin") {
-                    window.location.href = "/admin/dashboard";
+                    window.location.href = "/";
                 } else {
-                    window.location.href = "/student/dashboard";
+                    window.location.href = "/";
                 }
             } else {
                 setErrorMsg(res.data.message || "Invalid credentials");

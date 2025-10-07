@@ -9,7 +9,7 @@ const page = async () => {
     const token = cookieStore.get("token")?.value;
     // Redirect if already logged in
     if (token) {
-        redirect("/dashboard");
+        redirect("/");
     }
     return (
         <section className="mt-16 flex flex-col md:flex-row justify-between items-center w-full max-w-6xl mx-auto px-4 gap-10">

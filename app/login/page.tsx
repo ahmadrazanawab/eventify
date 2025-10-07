@@ -9,7 +9,7 @@ const page = async () => {
     const token = cookieStore.get("token")?.value;
     // Redirect if already logged in
     if (token) {
-        redirect("/dashboard");
+        redirect("/");
     }
     return (
         <div >
