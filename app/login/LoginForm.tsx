@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -47,7 +47,8 @@ export default function LoginForm() {
             } else {
                 setErrorMsg(res.data.message || "Invalid credentials");
             }
-        } catch (error: any) {
+        } catch (err) {
+            const error = err as AxiosError<{ message?: string }>;
             console.error("Login Error:", error);
             setErrorMsg(error.response?.data?.message || "Something went wrong!");
         }

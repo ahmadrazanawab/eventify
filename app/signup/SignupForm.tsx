@@ -18,7 +18,7 @@ import axios from "axios"
 
 export function SignupForm() {
     const [role, setRole] = useState<"student" | "admin">("student")
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<ISignUp>();
+    const { register, handleSubmit, reset} = useForm<ISignUp>();
     const handleRoleChange = (newRole: "student" | "admin") => {
         setRole(newRole)
     }

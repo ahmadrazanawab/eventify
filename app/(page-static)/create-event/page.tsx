@@ -4,6 +4,11 @@ import { useState } from "react";
 import { EventForm } from "./EventForm";
 import { Card } from "@/components/ui/card";
 
+interface EventType{
+  id: number;
+  name: string;
+  date: string;
+};
 // Simulate logged-in user
 const currentUser = {
     email: "admin@college.com",
@@ -11,12 +16,12 @@ const currentUser = {
 };
 
 export default function CreateEventPage() {
-    const [events, setEvents] = useState([
+    const [events, setEvents] = useState<EventType[]>([
         { id: 1, name: "Coding Workshop", date: "2025-10-10" },
         { id: 2, name: "AI Seminar", date: "2025-10-15" },
     ]);
 
-    const handleCreateEvent = (event: any) => {
+    const handleCreateEvent = (event: EventType) => {
         setEvents([...events, event]);
     };
 
