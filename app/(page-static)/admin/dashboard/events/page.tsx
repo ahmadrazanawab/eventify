@@ -6,13 +6,13 @@ import { CreateEventFormInputs } from "@/app/type/event";
 import { Loder } from "@/app/components/Loder";
 
 
-type Event = {
-    id: string;
-    title: string;
-    date: string;
-    category: string;
-    participants: number;
-};
+// type Event = {
+//     id: string;
+//     title: string;
+//     date: string;
+//     category: string;
+//     participants: number;
+// };
 
 
 
