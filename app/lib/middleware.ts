@@ -4,10 +4,10 @@ import { verifyToken } from "./jwt";
 
 // Define the shape of your decoded token
 interface DecodedToken {
-  role: "admin" | "student";
-  email: string;
-  iat?: number;
-  exp?: number;
+    role: "admin" | "student";
+    email: string;
+    iat?: number;
+    exp?: number;
 }
 
 export function middleware(req: NextRequest) {
@@ -36,5 +36,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/admin/:path*", "/student/:path*"],
+    matcher: ["/admin/:path*", "/student/:path*", "/api/create-event/:path*", "/api/create-event/:path*"],
 };
