@@ -1,56 +1,44 @@
-// app/admin/dashboard/layout.tsx
-import React from "react";
-import { AdminSidebar } from "@/app/components/AdminSidebar";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import jwt from "jsonwebtoken";
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import jwt from 'jsonwebtoken';
+import AdminLayoutClient from './admin-layout-client';
 
-export default async function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
-    const cookiesStore = await cookies();
-    const token = cookiesStore.get("token")?.value;
+export default async function AdminDashboardLayout({ 
+    children 
+}: { 
+    children: React.ReactNode 
+}) {
+    const cookieStore =await cookies();
+    const token = cookieStore.get('token')?.value;
+    
+    let isAuthenticated = false;
+    let userRole = null;
 
-    if (!token) redirect("/login");
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { role?: string };
+            isAuthenticated = true;
+            userRole = decoded.role || null;
 
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { role: string };
-        if (decoded.role !== "admin") redirect("/student/dashboard");
-    } catch {
-        redirect("/login");
+            // Redirect non-admin users
+            if (userRole !== 'admin') {
+                redirect('/student/dashboard');
+            }
+        } catch (error) {
+            // Token is invalid or expired
+            isAuthenticated = false;
+        }
+    }
+
+    // If not authenticated, redirect to login
+    if (!isAuthenticated) {
+        redirect('/login');
     }
 
     return (
-        <div className="flex">
-            <AdminSidebar />
-            <main className="flex-1 p-8 ml-64 bg-white">{children}</main>
-        </div>
+        <AdminLayoutClient isAuthenticated={isAuthenticated} userRole={userRole}>
+            {children}
+        </AdminLayoutClient>
     );
 }
 
-
-
-// import React from "react";
-// import { AdminSidebar } from "@/app/components/AdminSidebar";
-// import { cookies } from "next/headers";
-// import { redirect } from "next/navigation";
-// import jwt from "jsonwebtoken";
-
-
-// export async function  AdminLayout({ children }: { children: React.ReactNode }) {
-//     const cookiesStore = await cookies();
-//     const token = cookiesStore.get("token")?.value;
-
-//     if (!token) redirect("/login");
-
-//     try {
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { role: string };
-//         if (decoded.role !== "admin") redirect("/student/dashboard");
-//     } catch {
-//         redirect("/login");
-//     }
-//     return (
-//         <div className="flex">
-//             <AdminSidebar />
-//             <main className="flex-1 p-8 ml-52 bg-white">{children}</main>
-//         </div>
-//     );
-// }
