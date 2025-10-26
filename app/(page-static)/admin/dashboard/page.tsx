@@ -21,7 +21,7 @@ export default async function AdminDashboardPage() {
         redirect("/login");
     }
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const res = await axios.get(`${baseUrl}/api/create-event/[id]`);
+    const res = await axios.get(`${baseUrl}/api/create-event`);
     // console.log("fetch data: = ",res.data?.data.length);
 
 

@@ -41,7 +41,7 @@ export default function AdminEventsPage() {
     const getEvent = async () => {
         try {
             setLoading(true);
-            const res = await axios.get("/api/create-event/[id]");
+            const res = await axios.get("/api/create-event");
             console.log(res.data);
             setEvent(res.data?.data);
             setLoading(false);
