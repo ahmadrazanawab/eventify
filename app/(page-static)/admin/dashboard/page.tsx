@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
+import axios from "axios";
 
 
 export default async function AdminDashboardPage() {
@@ -19,7 +20,11 @@ export default async function AdminDashboardPage() {
     } catch {
         redirect("/login");
     }
-// this is access privious code
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const res = await axios.get(`${baseUrl}/api/create-event/[id]`);
+    // console.log("fetch data: = ",res.data?.data.length);
+
+
     return (
         <section className="min-h-screen mt-24 w-full flex flex-col bg-white">
             {/* ✅ Use existing Navbar */}
@@ -40,7 +45,7 @@ export default async function AdminDashboardPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                         <div className="p-5 bg-blue-50 rounded-xl border border-blue-100">
                             <h3 className="text-lg font-semibold text-blue-800">Total Events</h3>
-                            <p className="text-3xl font-bold text-blue-700 mt-2">12</p>
+                            <p className="text-3xl font-bold text-blue-700 mt-2">{res.data?.data.length}</p>
                         </div>
 
                         <div className="p-5 bg-green-50 rounded-xl border border-green-100">
