@@ -43,7 +43,7 @@ export async function POST(req: Request) {
             { expiresIn: "7d" }
         );
 
-        // 🔹 Create secure cookie
+        // 🔹 Create secure cookie (HTTP-only for security)
         const cookie = serialize("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",

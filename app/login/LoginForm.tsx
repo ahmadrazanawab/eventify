@@ -14,12 +14,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type LoginFormInputs = {
     email: string;
     password: string;
+};
+
+type LoginResponse = {
+    success: boolean;
+    message?: string;
+    user?: {
+        role: string;
+    };
 };
 
 export default function LoginForm() {
@@ -27,7 +35,12 @@ export default function LoginForm() {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
-    } = useForm<LoginFormInputs>();
+    } = useForm<LoginFormInputs>({
+        defaultValues: {
+            email: "",
+            password: ""
+        }
+    });
 
     const router = useRouter();
     const [errorMsg, setErrorMsg] = useState("");
@@ -35,22 +48,41 @@ export default function LoginForm() {
     const onSubmit = async (data: LoginFormInputs) => {
         try {
             setErrorMsg(""); // reset error
-            const res = await axios.post("/api/login", data);
+            const res = await axios.post("/api/login", data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
             if (res.data.success) {
-                // ✅ Redirect based on role
-                if (res.data.user.role === "admin") {
-                    window.location.href = "/";
+                // The token is already set as an HTTP-only cookie by the server
+                // Redirect based on role
+                if (res.data.user?.role === "admin") {
+                    window.location.href = "/admin/dashboard";
+                } else if (res.data.user?.role === "student") {
+                    window.location.href = "/student/dashboard";
                 } else {
                     window.location.href = "/";
                 }
             } else {
                 setErrorMsg(res.data.message || "Invalid credentials");
             }
-        } catch (err) {
-            const error = err as AxiosError<{ message?: string }>;
-            console.error("Login Error:", error);
-            setErrorMsg(error.response?.data?.message || "Something went wrong!");
+        } catch (error) {
+            const err = error as any;
+            if (err?.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.error("Login Error:", err.response.data);
+                setErrorMsg(err.response.data?.message || "Invalid credentials");
+            } else if (err?.request) {
+                // The request was made but no response was received
+                console.error("No response received:", err.request);
+                setErrorMsg("No response from server. Please try again.");
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.error("Error:", err.message || "Unknown error occurred");
+                setErrorMsg("An error occurred. Please try again.");
+            }
         }
     };
 
@@ -72,14 +104,14 @@ export default function LoginForm() {
                             <Input
                                 id="email"
                                 type="email"
-                                placeholder="example@email.com"
+                                placeholder="name@example.com"
                                 {...register("email", {
                                     required: "Email is required",
                                     pattern: {
-                                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                        message: "Enter a valid email",
+                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                        message: "Invalid email address",
                                     },
-                                })}
+                                }) as any}
                             />
                             {errors.email && (
                                 <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -97,14 +129,14 @@ export default function LoginForm() {
                             <Input
                                 id="password"
                                 type="password"
-                                placeholder="Enter your password"
+                                placeholder="••••••••"
                                 {...register("password", {
                                     required: "Password is required",
                                     minLength: {
                                         value: 6,
                                         message: "Password must be at least 6 characters",
                                     },
-                                })}
+                                }) as any}
                             />
                             {errors.password && (
                                 <p className="text-red-500 text-sm">
@@ -119,7 +151,7 @@ export default function LoginForm() {
                         )}
 
                         {/* Submit Button */}
-                        <Button type="submit" className="w-full" disabled={isSubmitting}>
+                        <Button type="submit" className="w-full" disabled={isSubmitting as boolean}>
                             {isSubmitting ? "Logging in..." : "Login"}
                         </Button>
 
