@@ -1,28 +1,35 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CreateEventForm from "./EventModel";
+import EventEditModel from "./EventEditModel"
 import axios from "axios";
 import { CreateEventFormInputs } from "@/app/type/event";
 import { Loder } from "@/app/components/Loder";
 
 
-type Event = {
-    id: string;
-    title: string;
-    date: string;
-    category: string;
-    participants: number;
-};
+// type Event = {
+//     id: string;
+//     title: string;
+//     date: string;
+//     category: string;
+//     participants: number;
+// };
 
 
 
 
 export default function AdminEventsPage() {
     // ✅ Hooks must be inside the component
+    // create event model useState
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+
+    // Edit Event Model useState
+    // const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    // const openEditModal = () => setIsEditModalOpen(true);
+    // const closeEditModal = () => setIsEditModalOpen(false);
+
     const [event, setEvent] = useState<CreateEventFormInputs[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -47,6 +54,19 @@ export default function AdminEventsPage() {
         getEvent();
     }, []);
 
+    const handleDelete = async (id: string) => {
+        try {
+            const res = await axios.delete(`/api/create-event/${id}`);
+            console.log(res.data.success);
+            if (res.data.success === true) {
+                alert("Event has been deleted successfully!");
+                setEvent((prev) => prev.filter((e) => e._id !== id));
+            }
+        } catch (error) {
+            console.log("Internal server error...", error);
+        }
+    }
+
     return (
         <section className="w-full min-h-screen mt-24">
             <h1 className="text-3xl font-bold mb-6">Event Management</h1>
@@ -55,7 +75,7 @@ export default function AdminEventsPage() {
                 + Create New Event
             </button>
 
-            {/* Modal */}
+            {/* Create Event Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 flex justify-center items-center bg-gray-200 backdrop-blur-md bg-opacity-50 z-50">
                     <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
@@ -71,6 +91,22 @@ export default function AdminEventsPage() {
                 </div>
             )}
 
+
+            {/*Edit Event Modal */}
+            {/* {isEditModalOpen && (
+                <div className="fixed inset-0 flex justify-center items-center bg-gray-200 backdrop-blur-md bg-opacity-50 z-50">
+                    <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
+                        <button
+                            onClick={closeEditModal}
+                            className="absolute top-2 right-2 text-lg font-bold"
+                        >
+                        </button>
+                        <h2 className="text-xl font-semibold mb-4">Edit Event</h2>
+                        <EventEditModel onSuccess={handleSuccess} />
+                    </div>
+                </div>
+            )} */}
+
             <table className="w-full table-auto border-collapse border border-gray-300">
                 <thead>
                     <tr className="bg-gray-200">
@@ -83,7 +119,7 @@ export default function AdminEventsPage() {
                     </tr>
                 </thead>
                 <tbody>
-                    {loading ? <div className="flex w-[80vw] mt-20 justify-center mb-5"><Loder/></div>: event.map((event, idx) => (
+                    {loading ? <div className="flex w-[80vw] mt-20 justify-center mb-5"><Loder /></div> : event.map((event, idx) => (
                         <tr key={idx}>
                             <td className="border px-4 py-2">{event.title}</td>
                             <td className="border px-4 py-2">{event.date}</td>
@@ -91,10 +127,10 @@ export default function AdminEventsPage() {
                             <td className="border px-4 py-2">{event.venue}</td>
                             <td className="border px-4 py-2">{event.description}</td>
                             <td className="border px-4 py-2 space-x-2">
-                                <button className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                                <button  className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
                                     Edit
                                 </button>
-                                <button className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                                <button onClick={() => handleDelete(event._id)} className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">
                                     Delete
                                 </button>
                             </td>

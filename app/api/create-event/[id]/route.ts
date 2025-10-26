@@ -61,10 +61,6 @@ export async function GET(
 ): Promise<NextResponse<ApiResponse>> {
   try {
     await connectDB();
-    const { id } = params;
-
-    // Example: if you want to get single event, uncomment below line
-    // const event = await CreateEventModel.findById(id);
 
     const events = await CreateEventModel.find().sort({ _id: -1 });
     if (!events || events.length === 0) {
@@ -91,7 +87,7 @@ export async function PUT(
     }
 
     const body = await req.json();
-    const { id } = params;
+    const { id } = await params;
     const updatedEvent = await CreateEventModel.findByIdAndUpdate(id, body, { new: true });
 
     if (!updatedEvent) {
