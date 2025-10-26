@@ -53,3 +53,29 @@ const HeroSection = () => {
 
 export default HeroSection;
 
+
+// "use client";
+// import React from 'react'
+// import Image from 'next/image';
+// import hero from "@/app/assist/hero5.jpg";
+
+// const HeroSection = () => {
+//     return (
+//         <div>
+//             <div className="mt-20 relative w-full h-[70vh]">
+//                 <Image src={hero} fill={true} className='object-fill' alt="noImage" />
+//             </div>
+//             <div className='flex flex-col w-full items-center mb-5'>
+//                 <h4 className="text-[#0071BC] text-4xl font-medium text-center my-4">Event Management Platform for Colleges and Universities</h4>
+//                 <p className='text-md font-sans'>Is your campus a dynamic hub of academic, social, and cultural activities? With the many activities, courses and events educational institutions offer, a</p>
+//                 <p className='text-md font-sans'>complete campus event planning and scheduling software will help you execute memorable events that build your thriving campus community.</p>
+//                 <p className='text-md font-sans pt-5'>EventPro's university and college event management software lets you schedule appointments and keep track of all your planning efforts with ease.</p>
+//                 <p className='text-md font-sans'>Thanks to all the planning tools EventPro provides, you can eliminate the potential stress of double bookings, missed deadlines, communication</p>
+//                 <p className='text-md font-sans'>breakdowns, and disorganized processes.</p>
+//             </div>
+            
+//         </div>
+//     )
+// }
+
+// export default HeroSection

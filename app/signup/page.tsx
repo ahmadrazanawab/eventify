@@ -39,3 +39,21 @@ const page = async () => {
 };
 
 export default page;
+
+
+// import React from 'react'
+// import { SignupForm } from './SignupForm'
+// const page = () => {
+//     return (
+//         <section className="mt-24 flex justify-around w-full">
+//             <div>
+//                 <h3>this is sign in page</h3>
+//                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque pariatur tempora blanditiis?</p>
+//                 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non, et.</p>
+//             </div>
+//            <div className='w-full'> <SignupForm /></div>
+//         </section>
+//     )
+// }
+
+// export default page

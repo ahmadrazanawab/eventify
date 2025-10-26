@@ -3,8 +3,7 @@ import React from 'react'
 const EventEditModel = () => {
   return (
     <div>
-          this is modelthis isi 
-          <p>this isi i</p>
+      this is model
     </div>
   )
 }

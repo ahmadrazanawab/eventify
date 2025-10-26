@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
@@ -21,20 +20,41 @@ export default async function AdminDashboardPage() {
         redirect("/login");
     }
 // this is access privious code
-=======
-import DashboardStats from "./dashboard-stats";
-// d491ffae14658d42f28af634aabb744393926c52
-export default function AdminDashboardPage() {
->>>>>>> ef4de99ea469edeb9f9faae45056dc4dd4510d8b
     return (
-        <div className="space-y-6 mt-20">
-            <div className="space-y-2">
-                <h1 className="text-2xl font-semibold tracking-tight">Welcome, Admin</h1>
-                <p className="text-sm text-muted-foreground">
-                    Manage and monitor your events, users, and system settings from one place.
-                </p>
+        <section className="min-h-screen mt-24 w-full flex flex-col bg-white">
+            {/* ✅ Use existing Navbar */}
+            {/* <NavbarWrapper /> */}
+
+            <div className="flex flex-1">
+                {/* Sidebar */}
+                {/* <AdminSidebar /> */}
+
+                {/* Main Dashboard Area */}
+                <main className="flex-1 p-8">
+                    <h1 className="text-3xl font-semibold text-gray-800 mb-4">Welcome, Admin!</h1>
+                    <p className="text-gray-600 leading-relaxed">
+                        Manage university events, users, and reports efficiently using your admin tools.
+                    </p>
+
+                    {/* Dashboard Summary Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                        <div className="p-5 bg-blue-50 rounded-xl border border-blue-100">
+                            <h3 className="text-lg font-semibold text-blue-800">Total Events</h3>
+                            <p className="text-3xl font-bold text-blue-700 mt-2">12</p>
+                        </div>
+
+                        <div className="p-5 bg-green-50 rounded-xl border border-green-100">
+                            <h3 className="text-lg font-semibold text-green-800">Upcoming Events</h3>
+                            <p className="text-3xl font-bold text-green-700 mt-2">4</p>
+                        </div>
+
+                        <div className="p-5 bg-purple-50 rounded-xl border border-purple-100">
+                            <h3 className="text-lg font-semibold text-purple-800">Registered Students</h3>
+                            <p className="text-3xl font-bold text-purple-700 mt-2">280</p>
+                        </div>
+                    </div>
+                </main>
             </div>
-            <DashboardStats />
-        </div>
+        </section>
     );
 }

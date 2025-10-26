@@ -48,8 +48,6 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ onSuccess }) => {
         }
     };
 
-   
-
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
