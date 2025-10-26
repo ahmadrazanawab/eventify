@@ -19,7 +19,7 @@ export default async function AdminDashboardPage() {
     } catch {
         redirect("/login");
     }
-
+// this is access privious code
     return (
         <section className="min-h-screen mt-24 w-full flex flex-col bg-white">
             {/* ✅ Use existing Navbar */}
