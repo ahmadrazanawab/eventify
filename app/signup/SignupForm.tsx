@@ -18,7 +18,7 @@ import axios from "axios"
 
 export function SignupForm() {
     const [role, setRole] = useState<"student" | "admin">("student")
-    const { register, handleSubmit, reset} = useForm<ISignUp>();
+    const { register, handleSubmit, reset , formState:{isSubmitting}} = useForm<ISignUp>();
     const handleRoleChange = (newRole: "student" | "admin") => {
         setRole(newRole)
     }
@@ -173,8 +173,8 @@ export function SignupForm() {
                                 />
                             </div>
                         </div>
-                        <Button type="submit" className="w-full cursor-pointer">
-                            Sign Up
+                        <Button type="submit" className="w-full cursor-pointer" disabled={isSubmitting}>
+                            {isSubmitting ? "Signing up..." : "Sign Up"}
                         </Button>
                     </form>
                 </CardContent>

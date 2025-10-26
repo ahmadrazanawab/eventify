@@ -57,19 +57,66 @@ export default function StudentEventsPage() {
         }
     };
 
+    const fetchEvents = async () => {
+        try {
+            const token = getAuthToken();
+            if (!token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const res = await axios.get("/api/events", {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+            });
+
+            if (res.data.success) {
+                setEvents(res.data.events);
+            }
+        } catch (error) {
+            console.error("Error fetching events:", error);
+            const err = error as AxiosError;
+            if (err.response?.status === 401) {
+                window.location.href = '/login';
+            }
+        }
+    };
+
     // Fetch student
     const getStudent = async () => {
         try {
-            const res = await axios.get("/api/student/me", { withCredentials: true });
-            console.log("Student:", res.data.student);
-            if (res.data.success) setStudent(res.data.student);
-        } catch (err) {
-            console.error("Fetch student error:", err);
+            const token = getAuthToken();
+            if (!token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const res = await axios.get("/api/student/me", {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+            });
+
+            if (res.data.success) {
+                setStudent(res.data.student);
+                // Fetch events after student data is loaded
+                fetchEvents();
+            }
+        } catch (error) {
+            console.error("Error fetching student data:", error);
+            const err = error as AxiosError;
+            if (err.response?.status === 401) {
+                window.location.href = '/login';
+            }
         }
     };
 
     useEffect(() => {
-        getEvents();
         getStudent();
     }, []);
 
@@ -83,11 +130,26 @@ export default function StudentEventsPage() {
         setSelectedEvent(null);
     };
 
+    const getAuthToken = () => {
+        if (typeof document === 'undefined') return '';
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; token=`);
+        if (parts.length === 2) return parts.pop()?.split(';').shift() || '';
+        return '';
+    };
+
     const onSubmit = async (data: RegistrationFormInputs) => {
         if (!selectedEvent || !student) return;
 
         try {
-            const res = await axios.post(
+            const token = getAuthToken();
+            if (!token) {
+                // Redirect to login if no token is found
+                window.location.href = '/login';
+                return;
+            }
+
+            const res = await axios.post<CreateEventResponse>(
                 "/api/student-register-event",
                 {
                     ...data,
@@ -98,13 +160,21 @@ export default function StudentEventsPage() {
                     year: student.year,
                     event: selectedEvent._id,
                 },
-                { withCredentials: true }
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                }
             );
 
             if (res.data.success) {
                 alert("Successfully registered!");
                 reset();
                 closeModal();
+                // Optionally refresh the events list
+                fetchEvents();
             } else {
                 alert(res.data.message || "Registration failed");
             }
