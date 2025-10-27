@@ -131,17 +131,11 @@ const authenticate = async (): Promise<DecodedUser | null> => {
   }
 };
 
-interface Context {
-  params: {
-    id: string;
-  };
-}
-
 export async function GET(
   request: NextRequest,
-  context: Context
+  { params }: { params: { id: string } }
 ): Promise<NextResponse<ApiResponse>> {
-  const { id } = context.params;
+  const { id } = params;
   try {
     await connectDB();
 
@@ -159,9 +153,9 @@ export async function GET(
 // ✅ Update event
 export async function PUT(
   request: NextRequest,
-  context: Context
+  { params }: { params: { id: string } }
 ): Promise<NextResponse<ApiResponse>> {
-  const { id } = context.params;
+  const { id } = params;
   try {
     await connectDB();
     const user = await authenticate();
@@ -185,9 +179,9 @@ export async function PUT(
 // ✅ Delete event
 export async function DELETE(
   request: NextRequest,
-  context: Context
+  { params }: { params: { id: string } }
 ): Promise<NextResponse<ApiResponse>> {
-  const { id } = context.params;
+  const { id } = params;
   try {
     await connectDB();
     const user = await authenticate();
