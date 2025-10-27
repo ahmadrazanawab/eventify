@@ -43,10 +43,15 @@ export default function AdminDashboardPage() {
                 });
                 setEvents(eventsRes.data?.data || []);
                 setError(null);
-            } catch (err: any) {
-                console.error('Error fetching data:', err);
-                setError(err.response?.data?.message || 'Failed to load dashboard');
-                if (err.response?.status === 401) {
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                const errorMessage = error && typeof error === 'object' && 'response' in error
+                    ? (error as { response?: { data?: { message?: string } } })?.response?.data?.message
+                    : 'Failed to load dashboard';
+                setError(errorMessage || 'Failed to load dashboard');
+                
+                if (error && typeof error === 'object' && 'response' in error && 
+                    (error as { response?: { status?: number } }).response?.status === 401) {
                     router.push('/login');
                 }
             } finally {
