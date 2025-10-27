@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import SignUpModel from "../../Models/signup-schema";
 import { connectDB } from "../../lib/db";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         await connectDB();
         const token = (await cookies()).get("token")?.value;

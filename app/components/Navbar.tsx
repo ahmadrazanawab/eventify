@@ -29,7 +29,8 @@ function NavbarInner({ className }: { className?: string }) {
                 const res = await axios.get("/api/check-jwt");
                 setIsAuth(res.data.authenticated);
                 setUserRole(res.data.user?.role || null); // ✅ get role from JWT
-            } catch (error) {
+            } catch (_error) {
+                // Handle error silently
                 setIsAuth(false);
                 setUserRole(null);
             }
