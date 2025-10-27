@@ -29,7 +29,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ onSuccess }) => {
 
     const onSubmit = async (data: CreateEventFormInputs) => {
         try {
-            const res = await axios.post<CreateEventResponse>("/api/create-event/[id]", data, {
+            const res = await axios.post<CreateEventResponse>("/api/create-event", data, {
                 withCredentials: true, // send JWT cookie
             });
 

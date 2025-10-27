@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { HoveredLink, Menu, MenuItem } from "@/components/ui/navbar-menu";
+import { Menu, MenuItem } from "@/components/ui/navbar-menu";
 import { cn } from "@/lib/utils";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,8 @@ function NavbarInner({ className }: { className?: string }) {
     const [active, setActive] = useState<string | null>(null);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [isAuth, setIsAuth] = useState(false);
-    const [userRole, setUserRole] = useState<string | null>(null); // ✅ added role state
+    const [userRole, setUserRole] = useState<string | null>(null);
+    const [, setError] = useState<string | null>(null);
 
     // check token + role on mount
     useEffect(() => {

@@ -47,7 +47,7 @@ export default function StudentEventsPage() {
     const getEvents = async () => {
         try {
             setLoading(true);
-            const res = await axios.get("/api/create-event/[id]", { withCredentials: true });
+            const res = await axios.get("/api/create-event", { withCredentials: true });
             console.log("Events:", res.data?.data);
             setEvents(res.data.data || []);
             setLoading(false);

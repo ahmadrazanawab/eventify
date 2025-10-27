@@ -44,7 +44,7 @@ export default function StudentDashboardPage() {
          
 
         // Fetch all events
-        const eventsRes = await axios.get("/api/create-event/[id]", { withCredentials: true });
+        const eventsRes = await axios.get("/api/create-event", { withCredentials: true });
         setEvents(eventsRes.data.data || []);
 
         // Fetch registered events

@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type LoginFormInputs = {
@@ -29,7 +28,6 @@ export default function LoginForm() {
         formState: { errors, isSubmitting },
     } = useForm<LoginFormInputs>();
 
-    const router = useRouter();
     const [errorMsg, setErrorMsg] = useState("");
 
     const onSubmit = async (data: LoginFormInputs) => {

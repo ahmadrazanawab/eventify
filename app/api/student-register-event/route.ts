@@ -66,7 +66,7 @@ interface UserPayload extends JwtPayload {
     role: "admin" | "student";
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         await connectDB();
 

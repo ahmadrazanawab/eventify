@@ -15,6 +15,7 @@ export async function GET() {
         const decoded = jwt.verify(token, process.env.JWT_SECRET!);
         return NextResponse.json({ authenticated: true, user: decoded });
     } catch (err) {
+        console.log("internal server error...", err);
         return NextResponse.json({ authenticated: false });
     }
 }
