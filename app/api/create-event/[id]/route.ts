@@ -35,7 +35,7 @@
 // ): Promise<NextResponse<ApiResponse>> {
 //     try {
 //         await connectDB();
-//         const { id } = await params;
+//         const { id } = params;
 
 //         const event = await CreateEventModel.findById(id);
 //         if (!event) {
@@ -62,7 +62,7 @@
 //         }
 
 //         const body = await req.json();
-//         const { id } = await params;
+//         const { id } = params;
 //         const updatedEvent = await CreateEventModel.findByIdAndUpdate(id, body, { new: true });
 
 //         if (!updatedEvent) {
@@ -88,7 +88,7 @@
 //             return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
 //         }
 
-//         const { id } = await params;
+//         const { id } = params;
 //         const deletedEvent = await CreateEventModel.findByIdAndDelete(id);
 
 //         if (!deletedEvent) {
@@ -134,18 +134,19 @@ const authenticate = async (): Promise<DecodedUser | null> => {
   }
 };
 
-// ✅ Get single event
-interface RouteParams {
-  id: string;
-}
+type RouteParams = {
+  params: {
+    id: string;
+  };
+};
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: RouteParams }
+  request: NextRequest,
+  { params }: RouteParams
 ): Promise<NextResponse<ApiResponse>> {
   try {
     await connectDB();
-    const { id } = await params;
+    const { id } = params;
 
     const event = await CreateEventModel.findById(id);
     if (!event) {
@@ -160,8 +161,8 @@ export async function GET(
 
 // ✅ Update event
 export async function PUT(
-  req: NextRequest,
-  { params }: { params: RouteParams }
+  request: NextRequest,
+  { params }: RouteParams
 ): Promise<NextResponse<ApiResponse>> {
   try {
     await connectDB();
@@ -170,8 +171,8 @@ export async function PUT(
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
-    const { id } = await params;
+    const body = await request.json();
+    const { id } = params;
     const updatedEvent = await CreateEventModel.findByIdAndUpdate(id, body, { new: true });
 
     if (!updatedEvent) {
@@ -186,8 +187,8 @@ export async function PUT(
 
 // ✅ Delete event
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: RouteParams }
+  request: NextRequest,
+  { params }: RouteParams
 ): Promise<NextResponse<ApiResponse>> {
   try {
     await connectDB();
@@ -196,7 +197,7 @@ export async function DELETE(
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = await params;
+    const { id } = params;
     const deletedEvent = await CreateEventModel.findByIdAndDelete(id);
 
     if (!deletedEvent) {
