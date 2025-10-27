@@ -1,4 +1,5 @@
 export interface CreateEventFormInputs {
+    [x: string]: any;
     _id: string;
     title: string;
     category: string;
