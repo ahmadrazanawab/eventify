@@ -55,10 +55,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponse>>
 }
 
 // GET (Fetch all events or single event)
-export async function GET(
-    req: NextRequest,
-    { params }: { params: { id: string } }
-): Promise<NextResponse<ApiResponse>> {
+export async function GET(): Promise<NextResponse<ApiResponse>> {
     try {
         await connectDB();
 

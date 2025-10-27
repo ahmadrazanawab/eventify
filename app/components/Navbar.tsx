@@ -21,7 +21,6 @@ function NavbarInner({ className }: { className?: string }) {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [isAuth, setIsAuth] = useState(false);
     const [userRole, setUserRole] = useState<string | null>(null);
-    const [, setError] = useState<string | null>(null);
 
     // check token + role on mount
     useEffect(() => {

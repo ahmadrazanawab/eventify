@@ -135,9 +135,13 @@ const authenticate = async (): Promise<DecodedUser | null> => {
 };
 
 // ✅ Get single event
+interface RouteParams {
+  id: string;
+}
+
 export async function GET(
   req: NextRequest,
-  { params }: any
+  { params }: { params: RouteParams }
 ): Promise<NextResponse<ApiResponse>> {
   try {
     await connectDB();
@@ -157,7 +161,7 @@ export async function GET(
 // ✅ Update event
 export async function PUT(
   req: NextRequest,
-  { params }: any
+  { params }: { params: RouteParams }
 ): Promise<NextResponse<ApiResponse>> {
   try {
     await connectDB();
@@ -183,7 +187,7 @@ export async function PUT(
 // ✅ Delete event
 export async function DELETE(
   req: NextRequest,
-  { params }: any
+  { params }: { params: RouteParams }
 ): Promise<NextResponse<ApiResponse>> {
   try {
     await connectDB();
