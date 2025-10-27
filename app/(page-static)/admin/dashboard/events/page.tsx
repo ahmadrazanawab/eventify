@@ -1,8 +1,25 @@
 "use client";
+"use client";
+
 import React, { useEffect, useState } from "react";
 import CreateEventForm from "./EventModel";
 import EventEditModel from "./EventEditModel"
 import axios from "axios";
+
+// Utility function to format date
+const formatDate = (dateString: string | Date): string => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) 
+        ? 'Invalid Date'
+        : date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+};
 import { CreateEventFormInputs } from "@/app/type/event";
 import { Loder } from "@/app/components/Loder";
 
@@ -132,7 +149,7 @@ export default function AdminEventsPage() {
                                 event.map((event, idx) => (
                                     <tr key={idx} className={`${idx % 2 === 0 ? "bg-gray-100" : "bg-gray-50"} hover:bg-gray-200 `}>
                                         <td className="border px-4 py-2">{event.title}</td>
-                                        <td className="border px-4 py-2">{event.date}</td>
+                                        <td className="border px-4 py-2">{formatDate(event.date)}</td>
                                         <td className="border px-4 py-2">{event.category}</td>
                                         <td className="border px-4 py-2">{event.venue}</td>
                                         <td className="border px-4 py-2">{event.description}</td>
