@@ -1,5 +1,7 @@
 "use client";
 
+"use client";
+
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -36,10 +38,10 @@ export default function AdminDashboardPage() {
                 }
 
                 // Fetch events
-                const eventsRes = await axios.get('/api/create-event', {
+                const eventsRes = await axios.get<{ data: CreateEventFormInputs[] }>('/api/create-event', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                setEvents(eventsRes.data.data || []);
+                setEvents(eventsRes.data?.data || []);
                 setError(null);
             } catch (err: any) {
                 console.error('Error fetching data:', err);
@@ -98,13 +100,18 @@ export default function AdminDashboardPage() {
                         <div className="p-5 bg-green-50 rounded-xl border border-green-100">
                             <h3 className="text-lg font-semibold text-green-800">Upcoming Events</h3>
                             <p className="text-3xl font-bold text-green-700 mt-2">
-                                {events.filter(event => new Date(event.date) > new Date()).length}
+                                {events.filter(event => {
+                                    const eventDate = new Date(event.date);
+                                    return !isNaN(eventDate.getTime()) && eventDate > new Date();
+                                }).length}
                             </p>
                         </div>
                         <div className="p-5 bg-purple-50 rounded-xl border border-purple-100">
                             <h3 className="text-lg font-semibold text-purple-800">Registered Students</h3>
                             <p className="text-3xl font-bold text-purple-700 mt-2">
-                                {events.reduce((total, event) => total + (event.attendees?.length || 0), 0)}
+                                {events.reduce((total, event) => {
+                                    return total + (Array.isArray(event.attendees) ? event.attendees.length : 0);
+                                }, 0)}
                             </p>
                         </div>
                     </div>
