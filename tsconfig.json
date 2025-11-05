@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/create-event/[id]/route.js", "app/api/events/route.js", "app/api/admin/stats/route.js", "app/api/check-jwt/route.js", "app/api/create-event/route.js", "app/api/lib/db.js", "app/lib/jwt.js", "app/lib/middleware.js", "app/api/login/route.js", "app/api/logout/route.js", "app/api/schema-validation/signup-validate.js", "app/api/signup/route.js", "app/api/student/me/route.js", "app/api/student-register-event/route.js", "app/api/Models/create-event-schema.js", "app/api/Models/Event.js", "app/api/Models/signup-schema.js", "app/api/Models/student-event-schema.js"],
   "exclude": ["node_modules"]
 }

@@ -4,7 +4,7 @@ import SignUpSchemaWithRole from "../schema-validation/signup-validate";
 import { connectDB } from "../lib/db";
 import bcrypt from "bcrypt";
 
-export async function POST(req: Request) {
+export async function POST(req) {
     try {
         // 1 Connect to MongoDB
         await connectDB();

@@ -5,7 +5,6 @@ export interface Attendee {
 }
 
 export interface CreateEventFormInputs {
-    _id: string;
     title: string;
     category: string;
     description: string;

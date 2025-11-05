@@ -4,12 +4,9 @@ import { StudentRegistrationModel } from "../Models/student-event-schema";
 import { cookies } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-interface DecodedUser extends JwtPayload {
-  id: string;
-  role: "student" | "admin";
-}
 
-export async function POST(req: NextRequest) {
+
+export async function POST(req) {
     try {
         await connectDB();
 
@@ -17,7 +14,7 @@ export async function POST(req: NextRequest) {
         const token = cookieStore.get("token")?.value;
         if (!token) return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
 
-        const user = jwt.verify(token, process.env.JWT_SECRET!) as DecodedUser;
+        const user = jwt.verify(token, process.env.JWT_SECRET);
         if (user.role !== "student") return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
         // Example in your POST API for student registration
 
@@ -55,16 +52,13 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ success: true, data: registration }, { status: 201 });
     } catch (error) {
-        const err = error as Error;
+        
         return NextResponse.json({ success: false, message: err.message }, { status: 500 });
     }
 }
 
 
-interface UserPayload extends JwtPayload {
-    id: string;
-    role: "admin" | "student";
-}
+
 
 export async function GET() {
     try {
@@ -77,7 +71,7 @@ export async function GET() {
             return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
         }
 
-        const user = jwt.verify(token, process.env.JWT_SECRET!) as UserPayload;
+        const user = jwt.verify(token, process.env.JWT_SECRET);
 
         let registrations;
         if (user.role === "student") {
@@ -89,8 +83,8 @@ export async function GET() {
         }
 
         return NextResponse.json({ success: true, data: registrations }, { status: 200 });
-    } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : "Unknown error";
+    } catch (err) {
+        console.log(err);
         return NextResponse.json({ success: false, message }, { status: 500 });
     }
 }

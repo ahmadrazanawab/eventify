@@ -11,7 +11,7 @@ export async function GET() {
         if (!token)
             return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const user = await SignUpModel.findById(decoded.id).select("-password");
         if (!user)

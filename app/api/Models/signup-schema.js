@@ -1,19 +1,6 @@
 import mongoose from "mongoose";
-import { ISignUp } from "@/app/type/IsignUp";
 
-// interface ISignUp {
-//   name: string;
-//   email: string;
-//   phone: number;
-//   designation?: string;
-//   department?: string;
-//   year?: string;
-//   secretCode?: string;
-//   password: string;
-//   role: "admin" | "student";
-// }
-
-const SignUpSchema = new mongoose.Schema<ISignUp>(
+const SignUpSchema = new mongoose.Schema(
     {
         name: { type: String, required: true },
         email: { type: String, required: true, unique: true },
@@ -33,6 +20,6 @@ const SignUpSchema = new mongoose.Schema<ISignUp>(
 );
 
 const SignUpModel =
-    mongoose.models.SignUp || mongoose.model<ISignUp>("SignUp", SignUpSchema);
+    mongoose.models.SignUp || mongoose.model("SignUp", SignUpSchema);
 
 export default SignUpModel;
