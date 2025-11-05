@@ -133,7 +133,7 @@ export default function StudentDashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{registeredEvents.length}</div>
-            <p className="text-xs text-muted-foreground">Events you've registered for</p>
+            <p className="text-xs text-muted-foreground">Events you&apos;ve registered for</p>
           </CardContent>
         </Card>
         
@@ -208,7 +208,7 @@ export default function StudentDashboardPage() {
             ))}
           </div>
         ) : (
-          <p className="text-muted-foreground">You haven't registered for any events yet.</p>
+          <p className="text-muted-foreground">You haven&apos;t registered for any events yet.</p>
         )}
       </section>
     </div>
