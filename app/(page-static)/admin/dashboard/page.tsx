@@ -11,7 +11,7 @@ type Stats = {
   totalEvents: number;
   totalStudents: number;
   upcomingEvents: number;
-  registeredStudents: number;
+  totalRegistrations: number;
 };
 
 export default function AdminDashboardPage() {
@@ -29,8 +29,8 @@ export default function AdminDashboardPage() {
           axios.get('/api/events?limit=5')
         ]);
         
-        setStats(statsRes.data);
-        setRecentEvents(eventsRes.data);
+        setStats(statsRes.data.data);
+        setRecentEvents(eventsRes.data.data);
         setError(null);
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
@@ -107,7 +107,7 @@ export default function AdminDashboardPage() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.registeredStudents}</div>
+            <div className="text-2xl font-bold">{stats.totalRegistrations}</div>
             <p className="text-xs text-muted-foreground">Event registrations</p>
           </CardContent>
         </Card>
@@ -126,7 +126,7 @@ export default function AdminDashboardPage() {
                   <div key={event._id} className="border-b pb-2 last:border-0 last:pb-0">
                     <h4 className="font-medium">{event.title}</h4>
                     <p className="text-sm text-muted-foreground">
-                      {new Date(event.date).toLocaleDateString()} • {event.venue}
+                      {new Date(event.date).toLocaleDateString()} • {event.venue || (event as any).location}
                     </p>
                   </div>
                 ))}

@@ -17,6 +17,8 @@ export interface CreateEventFormInputs {
     attendees?: Attendee[];
     image?: string;
     status?: 'draft' | 'published' | 'cancelled';
+    paymentRequired?: boolean;
+    fee?: number;
     createdAt?: string | Date;
     updatedAt?: string | Date;
     createdBy?: string; // admin user ID who created the event

@@ -24,11 +24,18 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ onSuccess }) => {
         register,
         handleSubmit,
         reset,
+        watch,
         formState: { errors, isSubmitting },
     } = useForm<CreateEventFormInputs>();
 
+    const paymentRequired = watch("paymentRequired", false);
+
     const onSubmit = async (data: CreateEventFormInputs) => {
         try {
+            if (data.paymentRequired && (!data.fee || data.fee <= 0)) {
+                alert("Please provide a valid fee for paid events.");
+                return;
+            }
             const res = await axios.post<CreateEventResponse>("/api/create-event", data, {
                 withCredentials: true, // send JWT cookie
             });
@@ -82,6 +89,26 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ onSuccess }) => {
                 </div>
 
                 <div>
+                    <Label htmlFor="time">Time</Label>
+                    <Input
+                        id="time"
+                        type="time"
+                        {...register("time", { required: "Time is required" })}
+                    />
+                    {errors.time && <p className="text-red-500 text-sm">{(errors as any).time?.message}</p>}
+                </div>
+
+                <div>
+                    <Label htmlFor="location">Location</Label>
+                    <Input
+                        id="location"
+                        placeholder="Enter city/campus/location"
+                        {...register("location", { required: "Location is required" })}
+                    />
+                    {errors.location && <p className="text-red-500 text-sm">{(errors as any).location?.message}</p>}
+                </div>
+
+                <div>
                     <Label htmlFor="venue">Venue</Label>
                     <Input
                         id="venue"
@@ -100,6 +127,23 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ onSuccess }) => {
                         className="border p-2 rounded w-full"
                     />
                     {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+                </div>
+
+                <div className="flex items-center space-x-2">
+                    <input id="paymentRequired" type="checkbox" {...register("paymentRequired")} />
+                    <Label htmlFor="paymentRequired">Payment required?</Label>
+                </div>
+
+                <div>
+                    <Label htmlFor="fee">Fee</Label>
+                    <Input
+                        id="fee"
+                        type="number"
+                        step="0.01"
+                        placeholder="0"
+                        {...register("fee", { valueAsNumber: true })}
+                        disabled={!paymentRequired}
+                    />
                 </div>
 
                 <Button type="submit" disabled={isSubmitting} className="w-full">

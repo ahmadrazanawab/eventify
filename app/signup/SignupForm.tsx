@@ -37,33 +37,31 @@ export function SignupForm() {
 
 
     return (
-        <section className="flex justify-center mt-20 mx-4 mb-5">
-            <Card className="w-full max-w-sm rounded-lg">
+        <section className="min-h-[calc(100vh-6rem)] mt-24 flex items-center justify-center bg-gray-50 px-4 py-10">
+            <Card className="w-full max-w-xl bg-white border border-gray-200 shadow-sm rounded-xl">
 
-                <CardHeader className="flex flex-col">
-                    <CardTitle>
+                <CardHeader className="text-center space-y-1">
+                    <CardTitle className="text-2xl text-gray-900">
                         {role === "student"
                             ? "Student Sign Up"
                             : "Admin Sign Up"}
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="text-gray-500">
                         {role === "student"
                             ? "Register as a student to participate in events."
                             : "Register as an admin to manage events and students."}
                     </CardDescription>
-                    <div className="flex mt-3">
+                    <div className="mt-4 flex items-center justify-center gap-2">
                         <Button
                             variant="link"
-                            className={`bg-gray-200 px-4 py-1 rounded-md mx-1 ${role === "student" ? "bg-blue-300" : ""
-                                }`}
+                            className={`px-4 py-1.5 rounded-md border transition-colors ${role === "student" ? "bg-blue-50 text-blue-700 border-blue-200" : "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"}`}
                             onClick={() => handleRoleChange("student")}
                         >
                             Student Sign Up
                         </Button>
                         <Button
                             variant="link"
-                            className={`bg-gray-200 px-4 py-1 rounded-md mx-1 ${role === "admin" ? "bg-blue-300" : ""
-                                }`}
+                            className={`px-4 py-1.5 rounded-md border transition-colors ${role === "admin" ? "bg-blue-50 text-blue-700 border-blue-200" : "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"}`}
                             onClick={() => handleRoleChange("admin")}
                         >
                             Admin Sign Up
@@ -75,7 +73,7 @@ export function SignupForm() {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name" className="text-gray-700">Name</Label>
                                 <Input
                                     id="name"
                                     {...register("name", {
@@ -87,7 +85,7 @@ export function SignupForm() {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email</Label>
+                                <Label htmlFor="email" className="text-gray-700">Email</Label>
                                 <Input
                                     id="email"
                                     {...register("email")}
@@ -100,7 +98,7 @@ export function SignupForm() {
                             {role === "student" && (
                                 <>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="department">Department</Label>
+                                        <Label htmlFor="department" className="text-gray-700">Department</Label>
                                         <Input
                                             id="department"
                                             {...register("department")}
@@ -110,7 +108,7 @@ export function SignupForm() {
                                         />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="year">Year</Label>
+                                        <Label htmlFor="year" className="text-gray-700">Year</Label>
                                         <Input
                                             id="year"
                                             {...register("year")}
@@ -125,7 +123,7 @@ export function SignupForm() {
                             {role === "admin" && (
                                 <>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="designation">
+                                        <Label htmlFor="designation" className="text-gray-700">
                                             Designation
                                         </Label>
                                         <Input
@@ -137,7 +135,7 @@ export function SignupForm() {
                                         />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="accesscode">
+                                        <Label htmlFor="accesscode" className="text-gray-700">
                                             Admin Access Code
                                         </Label>
                                         <Input
@@ -152,7 +150,7 @@ export function SignupForm() {
                             )}
 
                             <div className="grid gap-2">
-                                <Label htmlFor="phone">Mobile Number</Label>
+                                <Label htmlFor="phone" className="text-gray-700">Mobile Number</Label>
                                 <Input
                                     id="phone"
                                     {...register("phone")}
@@ -163,7 +161,7 @@ export function SignupForm() {
                             </div>
 
                             <div className="grid gap-2 mb-4">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password" className="text-gray-700">Password</Label>
                                 <Input
                                     id="password"
                                     {...register("password")}
@@ -173,17 +171,17 @@ export function SignupForm() {
                                 />
                             </div>
                         </div>
-                        <Button type="submit" className="w-full cursor-pointer">
+                        <Button type="submit" className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white">
                             Sign Up
                         </Button>
                     </form>
                 </CardContent>
 
                 <CardFooter className="flex-col gap-2">
-                    <Button variant="outline" className="w-full cursor-pointer">
+                    <Button variant="outline" className="w-full cursor-pointer border-gray-300 text-gray-700 hover:bg-gray-50">
                         Sign Up with Google
                     </Button>
-                    <p className="text-sm text-center w-full">
+                    <p className="text-sm text-center w-full text-gray-600">
                         Already have an account?{" "}
                         <Link href="/login" className="text-blue-600 hover:underline">
                             Sign In

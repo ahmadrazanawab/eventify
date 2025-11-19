@@ -53,11 +53,11 @@ export default function LoginForm() {
     };
 
     return (
-        <section className="flex justify-center mt-24 mx-4 mb-10">
-            <Card className="w-full max-w-sm">
-                <CardHeader>
-                    <CardTitle>Login</CardTitle>
-                    <CardDescription>
+        <section className="min-h-[calc(100vh-6rem)] mt-24 flex items-center justify-center bg-gray-50 px-4 py-10">
+            <Card className="w-full max-w-md bg-white border border-gray-200 shadow-sm rounded-xl">
+                <CardHeader className="text-center space-y-1">
+                    <CardTitle className="text-2xl text-gray-900">Login</CardTitle>
+                    <CardDescription className="text-gray-500">
                         Enter your email and password to access your account
                     </CardDescription>
                 </CardHeader>
@@ -66,7 +66,7 @@ export default function LoginForm() {
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         {/* Email Field */}
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email" className="text-gray-700">Email</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -87,7 +87,7 @@ export default function LoginForm() {
                         {/* Password Field */}
                         <div className="grid gap-2">
                             <div className="flex justify-between items-center">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password" className="text-gray-700">Password</Label>
                                 <a href="#" className="text-sm text-blue-600 hover:underline">
                                     Forgot Password?
                                 </a>
@@ -117,19 +117,19 @@ export default function LoginForm() {
                         )}
 
                         {/* Submit Button */}
-                        <Button type="submit" className="w-full" disabled={isSubmitting}>
+                        <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white" disabled={isSubmitting}>
                             {isSubmitting ? "Logging in..." : "Login"}
                         </Button>
 
                         {/* Google Login */}
-                        <Button variant="outline" className="w-full">
+                        <Button variant="outline" className="w-full border-gray-300 text-gray-700 hover:bg-gray-50">
                             Login with Google
                         </Button>
                     </form>
                 </CardContent>
 
                 <CardFooter>
-                    <p className="text-sm text-center w-full">
+                    <p className="text-sm text-center w-full text-gray-600">
                         Don’t have an account?{" "}
                         <Link href="/signup" className="text-blue-600 hover:underline">
                             Sign Up

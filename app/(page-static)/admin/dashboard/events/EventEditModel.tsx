@@ -14,9 +14,11 @@ interface EditEventFormProps {
 }
 
 const EventEditModel: React.FC<EditEventFormProps> = ({ isModalOpen, event, onClosed, onSave }) => {
-    const { register, handleSubmit, reset } = useForm<CreateEventFormInputs>({
+    const { register, handleSubmit, reset, watch } = useForm<CreateEventFormInputs>({
         defaultValues: event
     });
+
+    const paymentRequired = watch("paymentRequired", !!event.paymentRequired);
 
     // Reset form when event changes
     useEffect(() => {
@@ -24,6 +26,10 @@ const EventEditModel: React.FC<EditEventFormProps> = ({ isModalOpen, event, onCl
     }, [event, reset]);
 
     const handleFormSubmit = (data: CreateEventFormInputs) => {
+        if (data.paymentRequired && (!data.fee || data.fee <= 0)) {
+            alert("Please provide a valid fee for paid events.");
+            return;
+        }
         onSave({ ...event, ...data }); // merge with original _id
         onClosed();
     };
@@ -54,12 +60,35 @@ const EventEditModel: React.FC<EditEventFormProps> = ({ isModalOpen, event, onCl
                         <Input {...register("date", { required: true })} type="date" id="date" />
                     </div>
                     <div>
+                        <Label htmlFor="time">Time</Label>
+                        <Input {...register("time", { required: true })} type="time" id="time" />
+                    </div>
+                    <div>
+                        <Label htmlFor="location">Location</Label>
+                        <Input {...register("location", { required: true })} id="location" />
+                    </div>
+                    <div>
                         <Label htmlFor="venue">Venue</Label>
                         <Input {...register("venue", { required: true })} id="venue" />
                     </div>
                     <div>
                         <Label htmlFor="description">Description</Label>
                         <textarea {...register("description", { required: true })} id="description" className="border p-2 rounded w-full" />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <input id="paymentRequired" type="checkbox" {...register("paymentRequired")} />
+                        <Label htmlFor="paymentRequired">Payment required?</Label>
+                    </div>
+                    <div>
+                        <Label htmlFor="fee">Fee</Label>
+                        <Input
+                            id="fee"
+                            type="number"
+                            step="0.01"
+                            placeholder="0"
+                            {...register("fee", { valueAsNumber: true })}
+                            disabled={!paymentRequired}
+                        />
                     </div>
                     <div className="flex justify-end space-x-2">
                         <button type="button" onClick={onClosed} className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">

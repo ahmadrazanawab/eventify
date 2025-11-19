@@ -100,16 +100,16 @@ export default function AdminEventsPage() {
     }
 
     return (
-        <section className="w-full min-h-screen mt-24">
-            <h1 className="text-3xl font-bold mb-6">Event Management</h1>
+        <section className="w-full min-h-screen mt-24 px-4">
+            <h1 className="text-3xl font-bold mb-6 text-gray-900">Event Management</h1>
 
-            <button onClick={openModal} className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer ">
+            <button onClick={openModal} className="mb-4 inline-flex items-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 border border-blue-600 shadow-sm transition-colors">
                 + Create New Event
             </button>
 
             {/* Create Event Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 flex justify-center items-center bg-gray-200 backdrop-blur-md bg-opacity-50 z-50">
+                <div className="fixed inset-0 flex justify-center items-center bg-black/20 backdrop-blur-sm z-50">
                     <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
                         <button
                             onClick={closeModal}
@@ -124,47 +124,47 @@ export default function AdminEventsPage() {
             )}
 
 
-            <div className="w-full h-[70vh] border">
-                <div className="h-full overflow-y-auto">
-                    <table className="w-full border-collapse border border-gray-300">
-                        <thead className="bg-gray-200 sticky top-0">
+            <div className="w-full h-[70vh] rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
+                <div className="h-full overflow-y-auto overflow-x-auto">
+                    <table className="w-full table-auto text-sm">
+                        <thead className="bg-gray-50 sticky top-0 z-10">
                             <tr>
-                                <th className="border px-4 py-2">Event Name</th>
-                                <th className="border px-4 py-2">Date</th>
-                                <th className="border px-4 py-2">Category</th>
-                                <th className="border px-4 py-2">Venue</th>
-                                <th className="border px-4 py-2">Description</th>
-                                <th className="border px-4 py-2">Actions</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Name</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Venue</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan={6} className="text-center py-10">
+                                    <td colSpan={6} className="text-center py-12 text-gray-500">
                                         <Loder />
                                     </td>
                                 </tr>
                             ) : (
                                 event.map((event, idx) => (
-                                    <tr key={idx} className={`${idx % 2 === 0 ? "bg-gray-100" : "bg-gray-50"} hover:bg-gray-200 `}>
-                                        <td className="border px-4 py-2">{event.title}</td>
-                                        <td className="border px-4 py-2">{formatDate(event.date)}</td>
-                                        <td className="border px-4 py-2">{event.category}</td>
-                                        <td className="border px-4 py-2">{event.venue}</td>
-                                        <td className="border px-4 py-2">{event.description}</td>
-                                        <td className="border px-4 py-2 space-x-2">
+                                    <tr key={idx} className={`${idx % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-gray-50`}>
+                                        <td className="px-4 py-3 text-gray-700">{event.title}</td>
+                                        <td className="px-4 py-3 text-gray-700">{formatDate(event.date)}</td>
+                                        <td className="px-4 py-3 text-gray-700">{event.category}</td>
+                                        <td className="px-4 py-3 text-gray-700">{event.venue}</td>
+                                        <td className="px-4 py-3 text-gray-700">{event.description}</td>
+                                        <td className="px-4 py-3 space-x-2">
                                             <button
                                                 onClick={() => {
                                                     setSelectedEvent(event);
                                                     setIsEditModalOpen(true);
                                                 }}
-                                                className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                                                className="px-3 py-1.5 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-900 hover:text-white transition-colors"
                                             >
                                                 Edit
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(event._id)}
-                                                className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                                                className="px-3 py-1.5 rounded-md border border-red-200 text-red-600 hover:bg-red-600 hover:text-white transition-colors"
                                             >
                                                 Delete
                                             </button>

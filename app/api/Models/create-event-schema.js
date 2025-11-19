@@ -14,6 +14,8 @@ const CreateEventSchema = new Schema(
     description: { type: String, required: [true, 'Description is required'] },
     maxParticipants: { type: Number },
     image: { type: String },
+    paymentRequired: { type: Boolean, default: false },
+    fee: { type: Number, default: 0 },
     status: { 
       type: String, 
       enum: ['draft', 'published', 'cancelled'],
@@ -21,12 +23,12 @@ const CreateEventSchema = new Schema(
     },
     createdBy: { 
       type: Schema.Types.ObjectId, 
-      ref: 'User', 
+      ref: 'SignUp', 
       required: [true, 'Creator ID is required'] 
     },
     participants: [{ 
       type: Schema.Types.ObjectId, 
-      ref: 'User', 
+      ref: 'SignUp', 
       default: [] 
     }],
   },
