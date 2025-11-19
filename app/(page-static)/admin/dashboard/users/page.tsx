@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -33,9 +33,10 @@ export default function AdminUsersPage() {
         withCredentials: true,
       });
       setUsers(res.data?.data || []);
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
-      alert(e?.response?.data?.message || "Failed to load users");
+      const err = e as { response?: { data?: { message?: string } } };
+      alert(err?.response?.data?.message || "Failed to load users");
     } finally {
       setLoading(false);
     }
@@ -45,12 +46,14 @@ export default function AdminUsersPage() {
     fetchUsers();
   }, []);
 
-  const debounceKey = useMemo(() => ({}), []);
+  const debounceRef = React.useRef<{ t?: ReturnType<typeof setTimeout> }>({});
   useEffect(() => {
-    (debounceKey as any).t && clearTimeout((debounceKey as any).t);
-    (debounceKey as any).t = setTimeout(() => fetchUsers(q), 300);
-    return () => clearTimeout((debounceKey as any).t);
-  }, [q, debounceKey]);
+    if (debounceRef.current.t) clearTimeout(debounceRef.current.t);
+    debounceRef.current.t = setTimeout(() => fetchUsers(q), 300);
+    return () => {
+      if (debounceRef.current.t) clearTimeout(debounceRef.current.t);
+    };
+  }, [q]);
 
   const toggleRole = async (u: User) => {
     setMutatingId(u._id);
@@ -63,9 +66,10 @@ export default function AdminUsersPage() {
       );
       const updated: User = res.data?.data;
       setUsers((prev) => prev.map((x) => (x._id === u._id ? updated : x)));
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
-      alert(e?.response?.data?.message || "Failed to update role");
+      const err = e as { response?: { data?: { message?: string } } };
+      alert(err?.response?.data?.message || "Failed to update role");
     } finally {
       setMutatingId(null);
     }
@@ -78,9 +82,10 @@ export default function AdminUsersPage() {
     try {
       await axios.delete(`/api/admin/users/${u._id}`, { withCredentials: true });
       setUsers((prev) => prev.filter((x) => x._id !== u._id));
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
-      alert(e?.response?.data?.message || "Failed to delete user");
+      const err = e as { response?: { data?: { message?: string } } };
+      alert(err?.response?.data?.message || "Failed to delete user");
     } finally {
       setMutatingId(null);
     }

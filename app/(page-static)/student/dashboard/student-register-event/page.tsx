@@ -32,8 +32,38 @@ type Student = {
     year: string;
 };
 
+type RegistrationLite = { event?: { _id?: string } } & Record<string, unknown>;
+
+type RzpResponseLike = {
+    razorpay_order_id: string;
+    razorpay_payment_id: string;
+    razorpay_signature: string;
+};
+
+type RazorpayOptions = {
+    key: string;
+    amount: number;
+    currency: string;
+    name: string;
+    description: string;
+    order_id: string;
+    prefill: { name: string; email: string; contact: string };
+    notes: { eventId: string; studentId: string };
+    theme: { color: string };
+    handler: (response: RzpResponseLike) => void;
+    modal?: { ondismiss: () => void };
+    [k: string]: unknown;
+};
+
 type RegistrationFormInputs = {
     eventFees?: number;
+};
+
+type RegistrationRecord = {
+    _id: string;
+    event?: { _id?: string };
+    paymentStatus?: string;
+    registeredAt?: string | number;
 };
 
 interface CreateEventResponse {
@@ -45,7 +75,7 @@ export default function StudentEventsPage() {
     const useDummy = process.env.NEXT_PUBLIC_USE_DUMMY_PAYMENT === 'true';
     const [events, setEvents] = useState<Event[]>([]);
     const [student, setStudent] = useState<Student | null>(null);
-    const [registeredRegs, setRegisteredRegs] = useState<any[]>([]);
+    const [registeredRegs, setRegisteredRegs] = useState<RegistrationLite[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -59,7 +89,7 @@ export default function StudentEventsPage() {
     const [cvv, setCvv] = useState("");
     const [dummyError, setDummyError] = useState("");
     const [successOpen, setSuccessOpen] = useState(false);
-    const [registration, setRegistration] = useState<any | null>(null);
+    const [registration, setRegistration] = useState<RegistrationRecord | null>(null);
     const [paymentMethod, setPaymentMethod] = useState<'card' | 'qr' | 'cash'>('card');
     const [qrAck, setQrAck] = useState(false);
 
@@ -83,7 +113,6 @@ export default function StudentEventsPage() {
     const beginRazorpayPayment = async (ev: Event, stu: Student) => {
         try {
             setPaying(true);
-            let order: any, key: string;
             const orderRes = await axios.post(
                 "/api/payment/razorpay/order",
                 { eventId: ev._id },
@@ -94,7 +123,7 @@ export default function StudentEventsPage() {
                 setPaying(false);
                 return;
             }
-            ({ order, key } = orderRes.data);
+            const { order, key } = orderRes.data as { order: { amount: number; currency: string; id: string }; key: string };
 
             const ok = await loadRzpScript();
             if (!ok) {
@@ -103,7 +132,7 @@ export default function StudentEventsPage() {
                 return;
             }
 
-            const options: any = {
+            const options: RazorpayOptions = {
                 key,
                 amount: order.amount,
                 currency: order.currency,
@@ -113,7 +142,7 @@ export default function StudentEventsPage() {
                 prefill: { name: stu.name, email: stu.email, contact: stu.phone },
                 notes: { eventId: ev._id, studentId: stu.id },
                 theme: { color: "#0ea5e9" },
-                handler: async (response: any) => {
+                handler: async (response: RzpResponseLike) => {
                     try {
                         const verifyRes = await axios.post(
                             "/api/payment/razorpay/verify",
@@ -150,7 +179,7 @@ export default function StudentEventsPage() {
                 modal: { ondismiss: () => setPaying(false) },
             };
 
-            const rzp = new (window as any).Razorpay(options);
+            const rzp = new (window as unknown as { Razorpay: new (opts: RazorpayOptions) => { open: () => void } }).Razorpay(options);
             rzp.open();
         } catch (e) {
             setDummyOpen(true);
@@ -392,7 +421,8 @@ export default function StudentEventsPage() {
                 }
                 setPaying(true);
                 // 1) Create Razorpay order
-                let order: any, key: string;
+                let orderData: { amount: number; currency: string; id: string } | null = null;
+                let keyVal = "";
                 try {
                     const orderRes = await axios.post(
                         "/api/payment/razorpay/order",
@@ -405,7 +435,9 @@ export default function StudentEventsPage() {
                         setPaying(false);
                         return;
                     }
-                    ({ order, key } = orderRes.data);
+                    const { order, key } = orderRes.data as { order: { amount: number; currency: string; id: string }; key: string };
+                    orderData = order;
+                    keyVal = key;
                 } catch (e) {
                     // Fallback to dummy payment on server/network error
                     setDummyOpen(true);
@@ -433,14 +465,20 @@ export default function StudentEventsPage() {
                     return;
                 }
 
+                if (!orderData || !keyVal) {
+                    setDummyOpen(true);
+                    setPaying(false);
+                    return;
+                }
+
                 // 3) Open checkout
-                const options: any = {
-                    key,
-                    amount: order.amount,
-                    currency: order.currency,
+                const options: RazorpayOptions = {
+                    key: keyVal,
+                    amount: orderData.amount,
+                    currency: orderData.currency,
                     name: selectedEvent.title,
                     description: "Event Registration Fee",
-                    order_id: order.id,
+                    order_id: orderData.id,
                     prefill: {
                         name: student.name,
                         email: student.email,
@@ -448,7 +486,7 @@ export default function StudentEventsPage() {
                     },
                     notes: { eventId: selectedEvent._id, studentId: student.id },
                     theme: { color: "#0ea5e9" },
-                    handler: async (response: any) => {
+                    handler: async (response: RzpResponseLike) => {
                         try {
                             // 4) Verify payment and create registration as paid
                             const verifyRes = await axios.post(
@@ -490,7 +528,7 @@ export default function StudentEventsPage() {
                     },
                 };
 
-                const rzp = new (window as any).Razorpay(options);
+                const rzp = new (window as unknown as { Razorpay: new (opts: RazorpayOptions) => { open: () => void } }).Razorpay(options);
                 rzp.open();
                 return; // stop default registration flow
             }

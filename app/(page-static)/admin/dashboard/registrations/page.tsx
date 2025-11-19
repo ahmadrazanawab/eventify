@@ -51,7 +51,7 @@ export default function AdminRegistrationsPage() {
       const res = await axios.get("/api/student-register-event", { withCredentials: true });
       setRegs(res.data?.data || []);
       setError("");
-    } catch (e) {
+    } catch {
       setError("Failed to load registrations");
     } finally {
       setLoading(false);
@@ -108,7 +108,7 @@ export default function AdminRegistrationsPage() {
       } else {
         alert(res.data?.message || 'Failed to mark as paid');
       }
-    } catch (e) {
+    } catch {
       alert('Failed to mark as paid');
     }
   };
@@ -121,7 +121,7 @@ export default function AdminRegistrationsPage() {
       } else {
         alert(res.data?.message || 'Failed to update method');
       }
-    } catch (e) {
+    } catch {
       alert('Failed to update method');
     }
   };

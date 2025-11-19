@@ -30,7 +30,7 @@ type Registration = {
 export default function StudentDashboardPage() {
   const router = useRouter();
   const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [registeredRegs, setRegisteredRegs] = useState<Registration[]>([]);
   const [ticketOpen, setTicketOpen] = useState(false);

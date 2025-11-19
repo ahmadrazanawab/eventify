@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Model, model, Types } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 
 

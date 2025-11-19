@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { connectDB } from "../lib/db";
 import { StudentRegistrationModel } from "../Models/student-event-schema";
 import { cookies } from "next/headers";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { CreateEventModel } from "../Models/create-event-schema";
 
 export const runtime = "nodejs";

@@ -95,7 +95,9 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ onSuccess }) => {
                         type="time"
                         {...register("time", { required: "Time is required" })}
                     />
-                    {errors.time && <p className="text-red-500 text-sm">{(errors as any).time?.message}</p>}
+                    {errors.time && (
+                        <p className="text-red-500 text-sm">{errors.time.message}</p>
+                    )}
                 </div>
 
                 <div>
@@ -105,7 +107,9 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ onSuccess }) => {
                         placeholder="Enter city/campus/location"
                         {...register("location", { required: "Location is required" })}
                     />
-                    {errors.location && <p className="text-red-500 text-sm">{(errors as any).location?.message}</p>}
+                    {errors.location && (
+                        <p className="text-red-500 text-sm">{errors.location.message}</p>
+                    )}
                 </div>
 
                 <div>
