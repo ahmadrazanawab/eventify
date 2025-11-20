@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Calendar, Clock, MapPin, IndianRupee, CreditCard } from "lucide-react";
 
 type Event = {
   _id: string;
@@ -74,49 +75,52 @@ export default function StudentDashboardPage() {
   if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto mt-10 p-4">
       <h1 className="text-3xl font-bold mb-6">Student Dashboard</h1>
       
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-3 mb-8">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Events</CardTitle>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-4 w-4 text-muted-foreground">
+        <Card className="border-blue-100 bg-gradient-to-br from-blue-50 to-white hover:shadow-md transition">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-blue-700">
+            <CardTitle className="text-sm font-medium text-blue-700">Total Events</CardTitle>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5 text-blue-500">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
               <circle cx="9" cy="7" r="4" />
               <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{events.length}</div>
-            <p className="text-xs text-muted-foreground">Total events available</p>
+            <div className="text-2xl font-bold text-blue-700">{events.length}</div>
+            <p className="text-xs text-blue-700/70">Total events available</p>
+            <div className="mt-3 h-1.5 w-full rounded bg-blue-200" />
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Registered Events</CardTitle>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-4 w-4 text-muted-foreground">
+        <Card className="border-emerald-100 bg-gradient-to-br from-emerald-50 to-white hover:shadow-md transition">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-emerald-700">
+            <CardTitle className="text-sm font-medium text-emerald-700">Registered Events</CardTitle>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5 text-emerald-500">
               <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{registeredRegs.length}</div>
-            <p className="text-xs text-muted-foreground">Events you&apos;ve registered for</p>
+            <div className="text-2xl font-bold text-emerald-700">{registeredRegs.length}</div>
+            <p className="text-xs text-emerald-700/70">Events you&apos;ve registered for</p>
+            <div className="mt-3 h-1.5 w-full rounded bg-emerald-200" />
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Upcoming Events</CardTitle>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-4 w-4 text-muted-foreground">
+        <Card className="border-amber-100 bg-gradient-to-br from-amber-50 to-white hover:shadow-md transition">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-amber-700">
+            <CardTitle className="text-sm font-medium text-amber-700">Upcoming Events</CardTitle>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5 text-amber-500">
               <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{upcomingEvents.length}</div>
-            <p className="text-xs text-muted-foreground">Upcoming events</p>
+            <div className="text-2xl font-bold text-amber-700">{upcomingEvents.length}</div>
+            <p className="text-xs text-amber-700/70">Upcoming events</p>
+            <div className="mt-3 h-1.5 w-full rounded bg-amber-200" />
           </CardContent>
         </Card>
       </div>
@@ -125,19 +129,32 @@ export default function StudentDashboardPage() {
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Upcoming Events</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {upcomingEvents.map((event) => {
+          {upcomingEvents.map((event, idx) => {
             const isRegistered = registeredEventIds.has(event._id);
+            const themes = [
+              { card: "border-blue-100 bg-gradient-to-br from-blue-50 to-white", text: "text-blue-700", icon: "text-blue-500", bar: "bg-blue-200", chip: "bg-blue-50 text-blue-700" },
+              { card: "border-emerald-100 bg-gradient-to-br from-emerald-50 to-white", text: "text-emerald-700", icon: "text-emerald-500", bar: "bg-emerald-200", chip: "bg-emerald-50 text-emerald-700" },
+              { card: "border-amber-100 bg-gradient-to-br from-amber-50 to-white", text: "text-amber-700", icon: "text-amber-500", bar: "bg-amber-200", chip: "bg-amber-50 text-amber-700" },
+              { card: "border-violet-100 bg-gradient-to-br from-violet-50 to-white", text: "text-violet-700", icon: "text-violet-500", bar: "bg-violet-200", chip: "bg-violet-50 text-violet-700" },
+            ];
+            const t = themes[idx % themes.length];
             return (
-            <Card key={event._id} className="relative">
-              <CardHeader>
-                <CardTitle className="text-lg">{event.title}</CardTitle>
-                <div className="text-sm text-muted-foreground">
-                  {new Date(event.date).toLocaleDateString()} • {event.time}
+            <Card key={event._id} className={`relative hover:shadow-md transition border ${t.card}`}>
+              <CardHeader className={`pb-3 ${t.text}`}>
+                <div className="flex items-start justify-between gap-2">
+                  <CardTitle className="text-lg leading-snug">{event.title}</CardTitle>
+                  {event.category && (
+                    <span className={`rounded px-2 py-1 text-xs font-medium ${t.chip}`}>{event.category}</span>
+                  )}
                 </div>
-                <div className="text-sm">{event.venue}</div>
+                <div className="mt-1 text-xs text-gray-600 flex items-center gap-3 flex-wrap">
+                  <span className={`inline-flex items-center gap-1 ${t.text}`}><Calendar className="h-3.5 w-3.5" /> {new Date(event.date).toLocaleDateString()}</span>
+                  <span className={`inline-flex items-center gap-1 ${t.text}`}><Clock className="h-3.5 w-3.5" /> {event.time}</span>
+                  <span className={`inline-flex items-center gap-1 ${t.text}`}><MapPin className="h-3.5 w-3.5" /> {event.venue}</span>
+                </div>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                   {event.description}
                 </p>
                 {isRegistered ? (
@@ -152,6 +169,7 @@ export default function StudentDashboardPage() {
                     Register
                   </Button>
                 )}
+                <div className={`mt-4 h-1.5 w-full rounded ${t.bar}`} />
               </CardContent>
             </Card>
           );})}
@@ -166,27 +184,38 @@ export default function StudentDashboardPage() {
             {registeredRegs.map((reg) => {
               const event = reg.event;
               return (
-              <Card key={reg._id}>
+              <Card key={reg._id} className="hover:shadow-md transition">
                 <CardHeader>
                   <CardTitle className="text-lg">{event.title}</CardTitle>
-                  <div className="text-sm text-muted-foreground">
-                    {new Date(event.date).toLocaleDateString()} • {event.time}
+                  <div className="mt-1 text-xs text-gray-500 flex items-center gap-3 flex-wrap">
+                    <span className="inline-flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> {new Date(event.date).toLocaleDateString()}</span>
+                    <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {event.time}</span>
+                    <span className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> {event.venue}</span>
                   </div>
-                  <div className="text-sm">{event.venue}</div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {event.description}
-                  </p>
-                  <div className="mt-2 text-sm">
-                    <div className="flex justify-between"><span className="text-muted-foreground">Payment</span><span className="font-medium capitalize">{reg.paymentStatus || 'none'}</span></div>
+                  <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{event.description}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span
+                      className={`inline-flex items-center gap-1 rounded px-2 py-1 text-xs ${
+                        reg.paymentStatus === 'paid'
+                          ? 'bg-green-50 text-green-700'
+                          : reg.paymentStatus === 'pending'
+                          ? 'bg-amber-50 text-amber-700'
+                          : 'bg-gray-100 text-gray-700'
+                      }`}
+                    >
+                      <CreditCard className="h-3.5 w-3.5" /> {reg.paymentStatus || 'none'}
+                    </span>
                     {(reg.eventFees ?? 0) > 0 && (
-                      <div className="flex justify-between"><span className="text-muted-foreground">Fee</span><span className="font-medium">₹{reg.eventFees}</span></div>
+                      <span className="inline-flex items-center gap-1 rounded px-2 py-1 text-xs bg-gray-100 text-gray-700">
+                        <IndianRupee className="h-3.5 w-3.5" /> {reg.eventFees}
+                      </span>
                     )}
                   </div>
                   {reg.paymentStatus === 'paid' ? (
                     <Button
-                      className="mt-3 w-full"
+                      className="mt-4 w-full"
                       variant="outline"
                       onClick={() => { setSelectedReg(reg); setTicketOpen(true); }}
                     >
@@ -194,19 +223,28 @@ export default function StudentDashboardPage() {
                     </Button>
                   ) : reg.paymentStatus === 'pending' && (reg.eventFees ?? 0) > 0 && reg.paymentMethod !== 'cash' ? (
                     <Button
-                      className="mt-3 w-full"
+                      className="mt-4 w-full"
                       onClick={() => router.push(`/student/dashboard/student-register-event?eventId=${event._id}`)}
                     >
                       Pay Now
                     </Button>
                   ) : reg.paymentStatus === 'pending' && reg.paymentMethod === 'cash' ? (
-                    <Button className="mt-3 w-full" variant="outline" disabled>
+                    <Button className="mt-4 w-full" variant="outline" disabled>
                       Awaiting Cash Confirmation
                     </Button>
                   ) : null}
+                  <div
+                    className={`mt-4 h-1.5 w-full rounded ${
+                      reg.paymentStatus === 'paid'
+                        ? 'bg-green-200'
+                        : reg.paymentStatus === 'pending'
+                        ? 'bg-amber-200'
+                        : 'bg-gray-200'
+                    }`}
+                  />
                 </CardContent>
               </Card>
-            );})}
+              );})}
           </div>
         ) : (
           <p className="text-muted-foreground">You haven&apos;t registered for any events yet.</p>

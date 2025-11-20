@@ -5,6 +5,9 @@ import { CreateEventFormInputs } from "@/app/type/event";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Calendar, Clock, MapPin, Building2, FileText, IndianRupee, Tag } from "lucide-react";
 
 interface EditEventFormProps {
     isModalOpen: boolean;
@@ -37,68 +40,102 @@ const EventEditModel: React.FC<EditEventFormProps> = ({ isModalOpen, event, onCl
     if (!isModalOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-200 backdrop-blur-md bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
+        <div className="fixed inset-0 flex justify-center items-center bg-black/20 backdrop-blur-sm z-50">
+            <div className="w-full max-w-xl h-full overflow-y-auto relative px-4 sm:px-0">
                 <button
                     onClick={onClosed}
-                    className="absolute top-2 right-2 text-lg font-bold"
+                    className="absolute top-3 right-3 text-2xl font-bold text-gray-700 hover:text-gray-900"
+                    aria-label="Close"
                 >
                     &times;
                 </button>
-                <h2 className="text-xl font-semibold mb-4">Edit Event</h2>
-                <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
-                    <div>
-                        <Label htmlFor="title">Event Title</Label>
-                        <Input {...register("title", { required: true })} id="title" />
-                    </div>
-                    <div>
-                        <Label htmlFor="category">Category</Label>
-                        <Input {...register("category", { required: true })} id="category" />
-                    </div>
-                    <div>
-                        <Label htmlFor="date">Date</Label>
-                        <Input {...register("date", { required: true })} type="date" id="date" />
-                    </div>
-                    <div>
-                        <Label htmlFor="time">Time</Label>
-                        <Input {...register("time", { required: true })} type="time" id="time" />
-                    </div>
-                    <div>
-                        <Label htmlFor="location">Location</Label>
-                        <Input {...register("location", { required: true })} id="location" />
-                    </div>
-                    <div>
-                        <Label htmlFor="venue">Venue</Label>
-                        <Input {...register("venue", { required: true })} id="venue" />
-                    </div>
-                    <div>
-                        <Label htmlFor="description">Description</Label>
-                        <textarea {...register("description", { required: true })} id="description" className="border p-2 rounded w-full" />
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <input id="paymentRequired" type="checkbox" {...register("paymentRequired")} />
-                        <Label htmlFor="paymentRequired">Payment required?</Label>
-                    </div>
-                    <div>
-                        <Label htmlFor="fee">Fee</Label>
-                        <Input
-                            id="fee"
-                            type="number"
-                            step="0.01"
-                            placeholder="0"
-                            {...register("fee", { valueAsNumber: true })}
-                            disabled={!paymentRequired}
-                        />
-                    </div>
-                    <div className="flex justify-end space-x-2">
-                        <button type="button" onClick={onClosed} className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
-                            Cancel
-                        </button>
-                        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                            Save
-                        </button>
-                    </div>
-                </form>
+                <Card className="my-6">
+                    <CardHeader className="border-b">
+                        <CardTitle className="text-2xl">Edit Event</CardTitle>
+                        <CardDescription>Update event details, schedule, venue and optional fee.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="py-6">
+                        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <Label htmlFor="title" className="flex items-center gap-2"><Tag className="h-4 w-4"/> Event Title</Label>
+                                    <Input id="title" placeholder="e.g. Hackathon 2025" {...register("title", { required: true })} />
+                                </div>
+                                <div>
+                                    <Label htmlFor="category" className="flex items-center gap-2"><Tag className="h-4 w-4"/> Category</Label>
+                                    <Input id="category" placeholder="Technical, Cultural, Sports" {...register("category", { required: true })} />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <Label htmlFor="date" className="flex items-center gap-2"><Calendar className="h-4 w-4"/> Date</Label>
+                                    <Input id="date" type="date" {...register("date", { required: true })} />
+                                </div>
+                                <div>
+                                    <Label htmlFor="time" className="flex items-center gap-2"><Clock className="h-4 w-4"/> Time</Label>
+                                    <Input id="time" type="time" {...register("time", { required: true })} />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <Label htmlFor="location" className="flex items-center gap-2"><MapPin className="h-4 w-4"/> Location</Label>
+                                    <Input id="location" placeholder="City / Campus / Location" {...register("location", { required: true })} />
+                                </div>
+                                <div>
+                                    <Label htmlFor="venue" className="flex items-center gap-2"><Building2 className="h-4 w-4"/> Venue</Label>
+                                    <Input id="venue" placeholder="Auditorium / Hall name" {...register("venue", { required: true })} />
+                                </div>
+                            </div>
+
+                            <div>
+                                <Label htmlFor="description" className="flex items-center gap-2"><FileText className="h-4 w-4"/> Description</Label>
+                                <textarea
+                                    id="description"
+                                    placeholder="Describe the event..."
+                                    {...register("description", { required: true })}
+                                    className="border p-3 rounded-lg w-full min-h-28 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                />
+                            </div>
+
+                            <div className="rounded-lg border p-4 bg-white/50">
+                                <div className="flex items-center gap-2">
+                                    <input id="paymentRequired" type="checkbox" {...register("paymentRequired")} className="h-4 w-4" />
+                                    <Label htmlFor="paymentRequired">Payment required?</Label>
+                                </div>
+                                <p className="text-sm text-gray-500 mt-1">Enable this if participants must pay a fee to register.</p>
+
+                                <div className="mt-3 max-w-xs">
+                                    <Label htmlFor="fee" className="flex items-center gap-2"><IndianRupee className="h-4 w-4"/> Fee</Label>
+                                    <div className="relative">
+                                        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                                        <Input
+                                            id="fee"
+                                            type="number"
+                                            step="0.01"
+                                            placeholder="0.00"
+                                            className="pl-7"
+                                            {...register("fee", { valueAsNumber: true })}
+                                            disabled={!paymentRequired}
+                                        />
+                                    </div>
+                                    <p className="text-xs text-gray-500 mt-1">Leave as 0 for free events.</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Button type="button" variant="outline" className="w-full" onClick={onClosed}>
+                                    Cancel
+                                </Button>
+                                <Button type="submit" className="w-full">
+                                    Save
+                                </Button>
+                            </div>
+                        </form>
+                    </CardContent>
+                    <CardFooter className="border-t"></CardFooter>
+                </Card>
             </div>
         </div>
     );

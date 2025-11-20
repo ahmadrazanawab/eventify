@@ -110,7 +110,7 @@ export default function AdminEventsPage() {
             {/* Create Event Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 flex justify-center items-center bg-black/20 backdrop-blur-sm z-50">
-                    <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
+                    <div className="bg-white p-6 rounded shadow-lg w-full max-w-xl h-full overflow-y-auto relative">
                         <button
                             onClick={closeModal}
                             className="absolute top-2 right-2 text-lg font-bold"
@@ -118,7 +118,7 @@ export default function AdminEventsPage() {
                             &times;
                         </button>
                         <h2 className="text-xl font-semibold mb-4">Create Event</h2>
-                        <CreateEventForm onSuccess={handleSuccess} />
+                        <CreateEventForm onSuccess={handleSuccess} onCancel={closeModal} />
                     </div>
                 </div>
             )}

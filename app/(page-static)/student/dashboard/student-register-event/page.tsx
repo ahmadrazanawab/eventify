@@ -580,7 +580,7 @@ export default function StudentEventsPage() {
                         const expired = new Date(event.date) < new Date();
                         const already = registeredRegs?.some((r) => r?.event?._id === event._id);
                         return (
-                            <div key={event._id} className="border p-4 rounded shadow">
+                            <div key={event._id} className={`border p-4 rounded shadow ${expired ? 'bg-gray-50' : 'bg-emerald-50 border-emerald-200'}`}>
                                 <h2 className={`text-xl font-semibold ${expired ? 'line-through text-gray-400' : ''}`}>{event.title}</h2>
                                 <p className="text-gray-600">{event.date} | {event.category}</p>
                                 <p className="text-gray-600">{event.venue}</p>

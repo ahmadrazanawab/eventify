@@ -164,31 +164,34 @@ export default function AdminRegistrationsPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex items-center justify-between mb-4 gap-2">
-        <h1 className="text-2xl font-bold">Registrations</h1>
+    <div className="w-[70vw] mx-auto p-6 space-y-6">
+      <header className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Registrations</h1>
+          <p className="text-sm text-muted-foreground">Review and manage event registrations</p>
+        </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={fetchRegs}>
-            <RefreshCcw className="mr-2 h-4 w-4" /> Refresh
+          <Button variant="outline" onClick={fetchRegs} className="gap-2">
+            <RefreshCcw className="h-4 w-4" /> Refresh
           </Button>
-          <Button onClick={exportCSV}>
-            <Download className="mr-2 h-4 w-4" /> Export CSV
+          <Button onClick={exportCSV} className="gap-2">
+            <Download className="h-4 w-4" /> Export CSV
           </Button>
         </div>
-      </div>
+      </header>
 
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>Filters</CardTitle>
+      <Card className="mb-2  border border-gray-200">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base">Filters</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid md:grid-cols-3 gap-3">
+        <CardContent className="pt-0">
+          <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-1">
-              <Label htmlFor="search">Search</Label>
-              <Input id="search" placeholder="Name, email, phone, dept, event" value={q} onChange={(e) => setQ(e.target.value)} />
+              <Label htmlFor="search" className="text-sm">Search</Label>
+              <Input id="search" placeholder="Search name, email, phone, dept, event" value={q} onChange={(e) => setQ(e.target.value)} />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="event">Event</Label>
+              <Label htmlFor="event" className="text-sm">Event</Label>
               <select id="event" className="select select-bordered w-full" value={eventId} onChange={(e) => setEventId(e.target.value)}>
                 <option value="">All events</option>
                 {events.map((ev) => (
@@ -197,7 +200,7 @@ export default function AdminRegistrationsPage() {
               </select>
             </div>
             <div className="space-y-1">
-              <Label htmlFor="payment">Payment</Label>
+              <Label htmlFor="payment" className="text-sm">Payment</Label>
               <select id="payment" className="select select-bordered w-full" value={pay} onChange={(e) => setPay(e.target.value as PaymentStatus | "")}> 
                 <option value="">All</option>
                 <option value="paid">Paid</option>
@@ -209,11 +212,11 @@ export default function AdminRegistrationsPage() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>All Registrations ({filtered.length})</CardTitle>
+      <Card className="border border-gray-200">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base">All Registrations <span className="text-muted-foreground">({filtered.length})</span></CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           {loading ? (
             <div className="flex items-center justify-center h-48">
               <Spinner className="h-6 w-6" />
@@ -221,59 +224,63 @@ export default function AdminRegistrationsPage() {
           ) : error ? (
             <div className="text-red-500">{error}</div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="table w-full">
-                <thead>
-                  <tr>
-                    <th className="whitespace-nowrap">Reg ID</th>
-                    <th>Event</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Dept/Year</th>
-                    <th className="text-right">Fee</th>
-                    <th>Payment</th>
-                    <th>Method</th>
-                    <th>Registered</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((r) => (
-                    <tr key={r._id}>
-                      <td className="font-mono text-xs max-w-40 truncate" title={r._id}>{r._id}</td>
-                      <td className="min-w-40">{r.event?.title ?? "-"}</td>
-                      <td>{r.name}</td>
-                      <td>{r.email}</td>
-                      <td>{r.phone}</td>
-                      <td>{r.department} {r.year ? `/ ${r.year}` : ""}</td>
-                      <td className="text-right">₹{r.eventFees ?? 0}</td>
-                      <td>
-                        <Badge variant={r.paymentStatus === "paid" ? undefined : "secondary"}>{r.paymentStatus}</Badge>
-                      </td>
-                      <td className="capitalize">
-                        <select
-                          className="select select-bordered select-xs"
-                          value={r.paymentMethod || 'none'}
-                          onChange={(e) => updateMethod(r._id, e.target.value as 'none' | 'online' | 'cash')}
-                        >
-                          <option value="none">none</option>
-                          <option value="online">online</option>
-                          <option value="cash">cash</option>
-                        </select>
-                      </td>
-                      <td className="whitespace-nowrap">{r.registeredAt ? new Date(r.registeredAt).toLocaleString() : ""}</td>
-                      <td>
-                        {r.paymentMethod === 'cash' && r.paymentStatus !== 'paid' ? (
-                          <Button size="sm" onClick={() => markPaid(r._id)}>Mark Paid</Button>
-                        ) : null}
-                      </td>
+            <div className="overflow-hidden rounded-md border max-w-full">
+              <div className="overflow-x-auto max-h-[70vh] overflow-y-auto w-full">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50 sticky top-0 z-10">
+                    <tr className="text-left text-gray-600 whitespace-nowrap">
+                      <th className="px-3 py-2 border">Reg ID</th>
+                      <th className="px-3 py-2 border">Event</th>
+                      <th className="px-3 py-2 border">Name</th>
+                      <th className="px-3 py-2 border">Email</th>
+                      <th className="px-3 py-2 border">Phone</th>
+                      <th className="px-3 py-2 border">Dept/Year</th>
+                      <th className="px-3 py-2 border text-right">Fee</th>
+                      <th className="px-3 py-2 border">Payment</th>
+                      <th className="px-3 py-2 border">Method</th>
+                      <th className="px-3 py-2 border">Registered</th>
+                      <th className="px-3 py-2 border">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filtered.map((r) => (
+                      <tr key={r._id} className="odd:bg-white even:bg-gray-50">
+                        <td className="px-3 py-2 border font-mono text-xs" title={r._id}>{r._id}</td>
+                        <td className="px-3 py-2 border" title={r.event?.title ?? "-"}>{r.event?.title ?? "-"}</td>
+                        <td className="px-3 py-2 border break-words">{r.name}</td>
+                        <td className="px-3 py-2 border" title={r.email}>{r.email}</td>
+                        <td className="px-3 py-2 border">{r.phone}</td>
+                        <td className="px-3 py-2 border">{r.department} {r.year ? `/ ${r.year}` : ""}</td>
+                        <td className="px-3 py-2 border text-right">₹{r.eventFees ?? 0}</td>
+                        <td className="px-3 py-2 border">
+                          <Badge variant={r.paymentStatus === "paid" ? undefined : "secondary"}>
+                            {r.paymentStatus}
+                          </Badge>
+                        </td>
+                        <td className="px-3 py-2 border capitalize">
+                          <select
+                            className="select select-bordered select-xs"
+                            value={r.paymentMethod || 'none'}
+                            onChange={(e) => updateMethod(r._id, e.target.value as 'none' | 'online' | 'cash')}
+                          >
+                            <option value="none">none</option>
+                            <option value="online">online</option>
+                            <option value="cash">cash</option>
+                          </select>
+                        </td>
+                        <td className="px-3 py-2 border whitespace-nowrap" title={r.registeredAt ? new Date(r.registeredAt).toLocaleString() : ""}>{r.registeredAt ? new Date(r.registeredAt).toLocaleString() : ""}</td>
+                        <td className="px-3 py-2 border">
+                          {r.paymentMethod === 'cash' && r.paymentStatus !== 'paid' ? (
+                            <Button size="sm" onClick={() => markPaid(r._id)} className="h-8 px-3">Mark Paid</Button>
+                          ) : null}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               {filtered.length === 0 && (
-                <div className="text-center text-sm text-muted-foreground py-6">No registrations found</div>
+                <div className="text-center text-sm text-muted-foreground py-8">No registrations found</div>
               )}
             </div>
           )}
