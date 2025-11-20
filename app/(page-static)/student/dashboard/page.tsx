@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, MapPin, IndianRupee, CreditCard } from "lucide-react";
+import { Calendar, Clock, MapPin, IndianRupee, CreditCard, Megaphone } from "lucide-react";
 
 type Event = {
   _id: string;
@@ -28,6 +28,16 @@ type Registration = {
   paymentMethod?: 'none' | 'online' | 'cash';
 };
 
+type Announcement = {
+  _id: string;
+  title: string;
+  message: string;
+  audience: 'All' | 'Students' | 'Admins';
+  priority: 'High' | 'Medium' | 'Low';
+  publishAt?: string;
+  createdAt: string;
+};
+
 export default function StudentDashboardPage() {
   const router = useRouter();
   const [events, setEvents] = useState<Event[]>([]);
@@ -36,6 +46,7 @@ export default function StudentDashboardPage() {
   const [registeredRegs, setRegisteredRegs] = useState<Registration[]>([]);
   const [ticketOpen, setTicketOpen] = useState(false);
   const [selectedReg, setSelectedReg] = useState<Registration | null>(null);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +69,18 @@ export default function StudentDashboardPage() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const loadAnnouncements = async () => {
+      try {
+        const r = await fetch('/api/announcements?limit=10', { cache: 'no-store' })
+        const d = await r.json()
+        const items: Announcement[] = Array.isArray(d?.data) ? d.data : []
+        setAnnouncements(items.filter(a => a.audience === 'All' || a.audience === 'Students'))
+      } catch {}
+    }
+    loadAnnouncements()
+  }, [])
   
   // Build a Set of event IDs already registered by the student for quick checks
   const registeredEventIds = new Set(
@@ -125,6 +148,31 @@ export default function StudentDashboardPage() {
         </Card>
       </div>
       
+      {/* Announcements */}
+      {announcements.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2"><Megaphone className="h-5 w-5"/> Announcements</h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {announcements.map((a) => (
+              <Card key={a._id} className="hover:shadow-md transition">
+                <CardHeader>
+                  <div className="flex items-start justify-between gap-2">
+                    <CardTitle className="text-lg leading-snug">{a.title}</CardTitle>
+                    <span className="rounded px-2 py-1 text-xs border">{a.priority}</span>
+                  </div>
+                  <div className="mt-1 text-xs text-gray-500">
+                    {a.audience} {a.publishAt ? `• ${new Date(a.publishAt).toLocaleString()}` : ''}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-700">{a.message}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Upcoming Events Section */}
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Upcoming Events</h2>

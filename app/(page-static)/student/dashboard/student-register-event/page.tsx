@@ -9,7 +9,7 @@ import { Loder } from "@/app/components/Loder";
 import { Label } from "@/components/ui/label";
 import QRCode from "react-qr-code";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CreditCard, QrCode, IndianRupee, ShieldCheck, AlertCircle } from "lucide-react";
+import { CreditCard, QrCode, IndianRupee, ShieldCheck, AlertCircle, Megaphone } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 type Event = {
@@ -71,6 +71,16 @@ interface CreateEventResponse {
     message?: string;
 }
 
+type Announcement = {
+    _id: string;
+    title: string;
+    message: string;
+    audience: 'All' | 'Students' | 'Admins';
+    priority: 'High' | 'Medium' | 'Low';
+    publishAt?: string;
+    createdAt: string;
+};
+
 export default function StudentEventsPage() {
     const useDummy = process.env.NEXT_PUBLIC_USE_DUMMY_PAYMENT === 'true';
     const [events, setEvents] = useState<Event[]>([]);
@@ -92,6 +102,7 @@ export default function StudentEventsPage() {
     const [registration, setRegistration] = useState<RegistrationRecord | null>(null);
     const [paymentMethod, setPaymentMethod] = useState<'card' | 'qr' | 'cash'>('card');
     const [qrAck, setQrAck] = useState(false);
+    const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
     const { register, handleSubmit, reset } = useForm<RegistrationFormInputs>();
     const searchParams = useSearchParams();
@@ -337,6 +348,18 @@ export default function StudentEventsPage() {
         getRegistrations();
     }, []);
 
+    useEffect(() => {
+        const loadAnnouncements = async () => {
+            try {
+                const r = await fetch('/api/announcements?limit=5', { cache: 'no-store' });
+                const d = await r.json();
+                const items: Announcement[] = Array.isArray(d?.data) ? d.data : [];
+                setAnnouncements(items.filter(a => a.audience === 'All' || a.audience === 'Students'));
+            } catch {}
+        };
+        loadAnnouncements();
+    }, []);
+
     // Deep-link: open modal/payment when arriving with ?eventId=...
     useEffect(() => {
         if (deepLinked.current) return;
@@ -571,6 +594,28 @@ export default function StudentEventsPage() {
     return (
         <section className="w-full min-h-screen mt-24 p-4">
             <h1 className="text-3xl font-bold mb-6">Available Events</h1>
+
+            {announcements.length > 0 && (
+                <div className="mb-6">
+                    <h2 className="text-xl font-semibold mb-3 flex items-center gap-2"><Megaphone className="h-5 w-5"/> Announcements</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {announcements.map(a => (
+                            <Card key={a._id} className="border">
+                                <CardHeader>
+                                    <div className="flex items-start justify-between gap-2">
+                                        <CardTitle className="text-base leading-snug">{a.title}</CardTitle>
+                                        <span className="rounded px-2 py-0.5 text-xs border">{a.priority}</span>
+                                    </div>
+                                    <div className="mt-1 text-xs text-gray-500">{a.audience} {a.publishAt ? `• ${new Date(a.publishAt).toLocaleString()}` : ''}</div>
+                                </CardHeader>
+                                <CardContent>
+                                    <p className="text-sm text-gray-700">{a.message}</p>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {loading ? (
