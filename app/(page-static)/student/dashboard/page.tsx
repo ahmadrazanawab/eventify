@@ -21,7 +21,7 @@ type Event = {
 
 type Registration = {
   _id: string;
-  event: Event;
+  event?: Event | null;
   paymentStatus?: 'none' | 'pending' | 'paid';
   eventFees?: number;
   registeredAt?: string;
@@ -231,6 +231,7 @@ export default function StudentDashboardPage() {
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {registeredRegs.map((reg) => {
               const event = reg.event;
+              if (!event) return null;
               return (
               <Card key={reg._id} className="hover:shadow-md transition">
                 <CardHeader>

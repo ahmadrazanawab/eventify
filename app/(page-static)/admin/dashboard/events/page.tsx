@@ -100,10 +100,11 @@ export default function AdminEventsPage() {
     }
 
     return (
-        <section className="w-full min-h-screen mt-24 px-4">
-            <h1 className="text-3xl font-bold mb-6 text-gray-900">Event Management</h1>
+        <section className="w-[70vw] min-h-screen mt-24 mx-auto px-4">
+            <h1 className="text-3xl font-bold mb-2 text-gray-900">Event Management</h1>
+            <p className="text-sm text-gray-500 mb-4">Create, view, and manage all events</p>
 
-            <button onClick={openModal} className="mb-4 inline-flex items-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 border border-blue-600 shadow-sm transition-colors">
+            <button onClick={openModal} className="mb-4 inline-flex items-center gap-2 px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 border border-blue-600 shadow-sm transition-colors">
                 + Create New Event
             </button>
 
@@ -124,50 +125,68 @@ export default function AdminEventsPage() {
             )}
 
 
-            <div className="w-full h-[70vh] rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
-                <div className="h-full overflow-y-auto overflow-x-auto">
+            <div className="w-[73vw] h-[70vh] rounded-xl border border-gray-200 bg-white shadow-sm">
+                <div className="h-full overflow-x-auto overflow-y-auto">
                     <table className="w-full table-auto text-sm">
                         <thead className="bg-gray-50 sticky top-0 z-10">
                             <tr>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Name</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Venue</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fee (₹)</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Max</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registered</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created On</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan={6} className="text-center py-12 text-gray-500">
+                                    <td colSpan={14} className="text-center py-12 text-gray-500 border border-gray-200">
                                         <Loder />
                                     </td>
                                 </tr>
                             ) : (
                                 event.map((event, idx) => (
                                     <tr key={idx} className={`${idx % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-gray-50`}>
-                                        <td className="px-4 py-3 text-gray-700">{event.title}</td>
-                                        <td className="px-4 py-3 text-gray-700">{formatDate(event.date)}</td>
-                                        <td className="px-4 py-3 text-gray-700">{event.category}</td>
-                                        <td className="px-4 py-3 text-gray-700">{event.venue}</td>
-                                        <td className="px-4 py-3 text-gray-700">{event.description}</td>
-                                        <td className="px-4 py-3 space-x-2">
-                                            <button
-                                                onClick={() => {
-                                                    setSelectedEvent(event);
-                                                    setIsEditModalOpen(true);
-                                                }}
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"> <div className="w-[200px]">{event.title}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{formatDate(event.date)}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{event.time}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{event.category}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{event.location}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{event.venue}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{event.description}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{event.paymentRequired ? 'Required' : 'None'}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{typeof event.fee === 'number' ? event.fee : 0}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 capitalize border border-gray-200"><div className="w-[200px]">{event.status ?? '-'}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{typeof event.maxParticipants === 'number' ? event.maxParticipants : '-'}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{Array.isArray(event.attendees) ? event.attendees.length : 0}</div></td>
+                                        <td className="px-4 py-3 text-gray-700 border border-gray-200"><div className="w-[200px]">{event.createdAt ? formatDate(event.createdAt) : '-'}</div></td>
+                                        <td className="px-4 py-3 border border-gray-200">
+                                            <div className="w-[200px] space-x-2">
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedEvent(event);
+                                                        setIsEditModalOpen(true);
+                                                    }}
                                                 className="px-3 py-1.5 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-900 hover:text-white transition-colors"
-                                            >
-                                                Edit
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(event._id)}
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(event._id)}
                                                 className="px-3 py-1.5 rounded-md border border-red-200 text-red-600 hover:bg-red-600 hover:text-white transition-colors"
-                                            >
-                                                Delete
-                                            </button>
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))

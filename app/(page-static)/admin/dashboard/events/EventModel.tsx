@@ -145,6 +145,41 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({ onSuccess, onCancel }
                             {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
                         </div>
 
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <Label htmlFor="maxParticipants">Max participants</Label>
+                                <Input
+                                    id="maxParticipants"
+                                    type="number"
+                                    min={0}
+                                    placeholder="e.g., 200"
+                                    {...register("maxParticipants", { valueAsNumber: true })}
+                                />
+                            </div>
+                            <div>
+                                <Label htmlFor="image">Image URL</Label>
+                                <Input
+                                    id="image"
+                                    placeholder="https://..."
+                                    {...register("image")}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <Label htmlFor="status">Status</Label>
+                            <select
+                                id="status"
+                                defaultValue="published"
+                                {...register("status")}
+                                className="border p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-200"
+                            >
+                                <option value="draft">Draft</option>
+                                <option value="published">Published</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+
                         <div className="rounded-lg border p-4 bg-white/50">
                             <div className="flex items-center gap-2">
                                 <input id="paymentRequired" type="checkbox" {...register("paymentRequired")} className="h-4 w-4" />
