@@ -23,7 +23,7 @@ export default function Page() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 mt-20">
       <div className="flex items-center gap-3">
         <MessageSquare className="h-6 w-6 text-emerald-600" />
         <h1 className="text-2xl font-semibold">Feedback</h1>

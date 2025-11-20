@@ -59,7 +59,7 @@ export default function AdminDashboardPage() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
                 <Card className="border-blue-100 bg-gradient-to-br from-blue-50 to-white hover:shadow-md transition">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-blue-700">
-                        <CardTitle className="text-sm font-medium text-blue-700">Total Events</CardTitle>
+                        <CardTitle className="text-xl font-medium text-blue-700">Total Events</CardTitle>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5 text-blue-500">
                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                             <circle cx="9" cy="7" r="4" />
@@ -67,14 +67,14 @@ export default function AdminDashboardPage() {
                         </svg>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-blue-700">{stats.totalEvents}</div>
-                        <p className="text-xs text-blue-700/70">Total events created</p>
+                        <div className="text-4xl font-bold text-blue-700">{stats.totalEvents}</div>
+                        <p className="text-md text-blue-700/70">Total events created</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-emerald-100 bg-gradient-to-br from-emerald-50 to-white hover:shadow-md transition">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-emerald-700">
-                        <CardTitle className="text-sm font-medium text-emerald-700">Total Students</CardTitle>
+                        <CardTitle className="text-xl font-medium text-emerald-700">Total Students</CardTitle>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5 text-emerald-500">
                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                             <circle cx="9" cy="7" r="4" />
@@ -82,34 +82,34 @@ export default function AdminDashboardPage() {
                         </svg>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-emerald-700">{stats.totalStudents}</div>
-                        <p className="text-xs text-emerald-700/70">Registered students</p>
+                        <div className="text-4xl font-bold text-emerald-700">{stats.totalStudents}</div>
+                        <p className="text-md text-emerald-700/70">Registered students</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-amber-100 bg-gradient-to-br from-amber-50 to-white hover:shadow-md transition">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-amber-700">
-                        <CardTitle className="text-sm font-medium text-amber-700">Upcoming Events</CardTitle>
+                        <CardTitle className="text-xl font-medium text-amber-700">Upcoming Events</CardTitle>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5 text-amber-500">
                             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                         </svg>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-amber-700">{stats.upcomingEvents}</div>
-                        <p className="text-xs text-amber-700/70">Scheduled events</p>
+                        <div className="text-4xl font-bold text-amber-700">{stats.upcomingEvents}</div>
+                        <p className="text-md text-amber-700/70">Scheduled events</p>
                     </CardContent>
                 </Card>
 
                 <Card className="border-violet-100 bg-gradient-to-br from-violet-50 to-white hover:shadow-md transition">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-violet-700">
-                        <CardTitle className="text-sm font-medium text-violet-700">Total Registrations</CardTitle>
+                        <CardTitle className="text-xl font-medium text-violet-700">Total Registrations</CardTitle>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5 text-violet-500">
                             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                         </svg>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-violet-700">{stats.totalRegistrations}</div>
-                        <p className="text-xs text-violet-700/70">Event registrations</p>
+                        <div className="text-4xl font-bold text-violet-700">{stats.totalRegistrations}</div>
+                        <p className="text-md text-violet-700/70">Event registrations</p>
                     </CardContent>
                 </Card>
             </div>

@@ -105,7 +105,7 @@ export default function StudentDashboardPage() {
       <div className="grid gap-4 md:grid-cols-3 mb-8">
         <Card className="border-blue-100 bg-gradient-to-br from-blue-50 to-white hover:shadow-md transition">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-blue-700">
-            <CardTitle className="text-sm font-medium text-blue-700">Total Events</CardTitle>
+            <CardTitle className="text-xl font-medium text-blue-700">Total Events</CardTitle>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5 text-blue-500">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
               <circle cx="9" cy="7" r="4" />
@@ -113,36 +113,36 @@ export default function StudentDashboardPage() {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-700">{events.length}</div>
-            <p className="text-xs text-blue-700/70">Total events available</p>
+            <div className="text-4xl font-bold text-blue-700">{events.length}</div>
+            <p className="text-md text-blue-700/70">Total events available</p>
             <div className="mt-3 h-1.5 w-full rounded bg-blue-200" />
           </CardContent>
         </Card>
         
         <Card className="border-emerald-100 bg-gradient-to-br from-emerald-50 to-white hover:shadow-md transition">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-emerald-700">
-            <CardTitle className="text-sm font-medium text-emerald-700">Registered Events</CardTitle>
+            <CardTitle className="text-xl font-medium text-emerald-700">Registered Events</CardTitle>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5 text-emerald-500">
               <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-emerald-700">{registeredRegs.length}</div>
-            <p className="text-xs text-emerald-700/70">Events you&apos;ve registered for</p>
+            <div className="text-4xl font-bold text-emerald-700">{registeredRegs.length}</div>
+            <p className="text-md text-emerald-700/70">Events you&apos;ve registered for</p>
             <div className="mt-3 h-1.5 w-full rounded bg-emerald-200" />
           </CardContent>
         </Card>
         
         <Card className="border-amber-100 bg-gradient-to-br from-amber-50 to-white hover:shadow-md transition">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-amber-700">
-            <CardTitle className="text-sm font-medium text-amber-700">Upcoming Events</CardTitle>
+            <CardTitle className="text-xl font-medium text-amber-700">Upcoming Events</CardTitle>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5 text-amber-500">
               <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-amber-700">{upcomingEvents.length}</div>
-            <p className="text-xs text-amber-700/70">Upcoming events</p>
+            <div className="text-4xl font-bold text-amber-700">{upcomingEvents.length}</div>
+            <p className="text-md text-amber-700/70">Upcoming events</p>
             <div className="mt-3 h-1.5 w-full rounded bg-amber-200" />
           </CardContent>
         </Card>
@@ -160,12 +160,12 @@ export default function StudentDashboardPage() {
                     <CardTitle className="text-lg leading-snug">{a.title}</CardTitle>
                     <span className="rounded px-2 py-1 text-xs border">{a.priority}</span>
                   </div>
-                  <div className="mt-1 text-xs text-gray-500">
+                  <div className="mt-1 text-md text-gray-500">
                     {a.audience} {a.publishAt ? `• ${new Date(a.publishAt).toLocaleString()}` : ''}
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-700">{a.message}</p>
+                  <p className="text-md text-gray-700">{a.message}</p>
                 </CardContent>
               </Card>
             ))}

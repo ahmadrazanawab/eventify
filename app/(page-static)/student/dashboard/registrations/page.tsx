@@ -36,7 +36,7 @@ export default function StudentRegistrationsPage() {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full mt-20">
       <h1 className="text-2xl font-bold mb-4">My Registrations</h1>
       <Card>
         <CardHeader>

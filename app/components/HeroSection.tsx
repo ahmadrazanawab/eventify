@@ -64,7 +64,7 @@ const HeroSection = () => {
     };
 
     return isAuth ? (
-        <div className="mt-20 pt-2">
+        <div className="mt-20 mb-10 pt-2">
             <div className="max-w-5xl mx-auto px-4">
                 <div className="rounded-xl bg-gradient-to-r from-[#0071BC] to-blue-600 text-white p-8 sm:p-10">
                     <h1 className="text-3xl sm:text-4xl font-bold">
