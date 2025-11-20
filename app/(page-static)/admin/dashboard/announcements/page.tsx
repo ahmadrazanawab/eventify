@@ -6,6 +6,7 @@ type Audience = 'All' | 'Students' | 'Admins'
 type Priority = 'High' | 'Medium' | 'Low'
 
 type Announcement = {
+  _id?: string
   id: string
   title: string
   message: string
@@ -121,7 +122,7 @@ export default function Page() {
           ) : (
             <ul className="space-y-4">
               {items.map((a) => (
-                <li key={(a as any)._id ?? a.id} className="rounded-md border p-4">
+                <li key={a._id ?? a.id} className="rounded-md border p-4">
                   <div className="flex justify-between items-start gap-2 mb-1">
                     <p className="font-medium">{a.title}</p>
                     <span className="text-xs rounded-full px-2 py-0.5 border">{a.priority}</span>
