@@ -65,7 +65,7 @@ export default function Page() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 mt-20">
       <div className="flex items-center gap-3">
         <Megaphone className="h-6 w-6 text-violet-600" />
         <h1 className="text-2xl font-semibold">Announcements</h1>
